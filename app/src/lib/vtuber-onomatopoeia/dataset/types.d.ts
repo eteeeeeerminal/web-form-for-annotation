@@ -14,3 +14,8 @@ interface VTuberDatasetItem {
   create_at: string
   youtube: YouTubeDatasetItem
 }
+
+declare module '*/vtuber-dataset.json' {
+  const value: VTuberDatasetItem[]
+  export = value
+}
