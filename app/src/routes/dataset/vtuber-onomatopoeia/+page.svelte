@@ -6,6 +6,7 @@
 	$: vtuberVideo = {
 		videoId: vtuber.youtube.target_video.video_id,
 		title: vtuber.youtube.target_video.title,
+		uploaderName: vtuber.youtube.name,
 		description: vtuber.youtube.target_video.description
 	};
 </script>

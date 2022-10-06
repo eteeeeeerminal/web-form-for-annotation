@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let videoId: string;
 	export let title: string;
+	export let uploaderName: string;
 	export let description: string = 'この動画の概要欄は空欄でした。';
 
 	let descriptionOmitted = true;
@@ -21,7 +22,9 @@
 	<h3>
 		{title}
 	</h3>
-	<!-- もっと見るボタンで開いたり閉じたり出来るようにするボタンでcssのクラス変える処理書けば終わり -->
+	<div>
+		{uploaderName}
+	</div>
 	<div class={descriptionOmitted ? 'omitted' : 'expanded'}>
 		{@html description.replace(/\n/g, '<br/>')}
 	</div>
