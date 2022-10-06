@@ -1,0 +1,7 @@
+@import './variables.scss';
+
+:global(body) {
+  color: $text-color;
+  background-color: $background-color;
+  margin: 0px;
+}
