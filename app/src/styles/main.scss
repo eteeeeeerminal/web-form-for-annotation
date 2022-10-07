@@ -1,7 +1,17 @@
 @import './variables.scss';
 
+:global(html) {
+  height: 100%;
+}
+
 :global(body) {
   color: $text-color;
   background-color: $background-color;
   margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
+:global(div) {
+  height: 100%;
 }
