@@ -1,0 +1,10 @@
+[
+    {
+        "name": "VTuberオノマトペ印象アノテーション",
+        "datasetId": "vtuber-onomatopoeia"
+    },
+    {
+        "name": "テスト",
+        "datasetId": "test-dataset"
+    }
+]
