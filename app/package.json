@@ -9,9 +9,15 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"prepare": "npm run smui-theme",
+		"smui-theme": "smui-theme compile static/smui.css -i src/theme"
 	},
 	"devDependencies": {
+		"@smui/button": "^6.1.4",
+		"@smui/list": "^6.1.4",
+		"@smui/menu": "^6.2.0",
+		"@smui/top-app-bar": "^6.1.4",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-static": "^1.0.0-next.44",
 		"@sveltejs/kit": "next",
@@ -28,6 +34,7 @@
 		"prettier-plugin-svelte": "^2.7.0",
 		"sass": "^1.55.0",
 		"scss": "^0.2.4",
+		"smui-theme": "^6.2.0",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
 		"svelte-preprocess": "^4.10.6",
