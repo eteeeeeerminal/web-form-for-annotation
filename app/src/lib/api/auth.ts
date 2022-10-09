@@ -8,3 +8,4 @@ export const currentUser = readable<User | null>(null, (set) => {
 });
 
 export const signOut = () => { auth.signOut() };
+export { User as User };
