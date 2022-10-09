@@ -15,6 +15,7 @@
 	},
 	"devDependencies": {
 		"@smui/button": "^6.1.4",
+		"@smui/card": "^6.1.4",
 		"@smui/list": "^6.1.4",
 		"@smui/menu": "^6.2.0",
 		"@smui/top-app-bar": "^6.1.4",
