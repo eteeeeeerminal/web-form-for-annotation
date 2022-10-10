@@ -8,7 +8,7 @@
 		import('firebaseui').then((firebaseui) => {
 			const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
 			ui.start('#firebaseui-auth-container', {
-				signInSuccessUrl: './dataset',
+				signInSuccessUrl: '/',
 				signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID]
 			});
 		});
