@@ -7,9 +7,19 @@
 		videoId: vtuber.youtube.target_video.video_id,
 		title: vtuber.youtube.target_video.title,
 		uploaderName: vtuber.youtube.name,
+		youtubeId: vtuber.youtube.channel_id,
 		description: vtuber.youtube.target_video.description
 	};
 </script>
 
-<YouTubeVideo {...vtuberVideo} />
+<div class="center">
+	<YouTubeVideo {...vtuberVideo} />
+</div>
 <button on:click={() => (vtuber = pickVtuber())}> 回答完了 </button>
+
+<style lang="scss">
+	.center {
+		display: flex;
+		justify-content: center;
+	}
+</style>

@@ -2,6 +2,7 @@
 	export let videoId: string;
 	export let title: string;
 	export let uploaderName: string;
+	export let youtubeId: string;
 	export let description: string = 'この動画の概要欄は空欄でした。';
 
 	let descriptionOmitted = true;
@@ -26,8 +27,22 @@
 	<div>
 		{uploaderName}
 	</div>
-	<div class={descriptionOmitted ? 'omitted' : 'expanded'}>
-		{@html description.replace(/\n/g, '<br/>')}
+
+	<div>
+		<div class="title">
+			{title}
+		</div>
+		<div class="description">
+			<a class="name" href="https://www.youtube.com/channel/{youtubeId}">
+				{uploaderName}
+			</a>
+			<div class={descriptionOmitted ? 'omitted' : 'expanded'}>
+				{@html description.replace(/\n/g, '<br/>')}
+			</div>
+		</div>
+		<button class="expandButton" on:click={switchExpand}>
+			{descriptionOmitted ? 'もっと見る' : '一部を表示'}
+		</button>
 	</div>
 	<button on:click={switchExpand} style={'background: none; border: none; cursor: pointer;'}>
 		{descriptionOmitted ? 'もっと見る' : '一部を表示'}
