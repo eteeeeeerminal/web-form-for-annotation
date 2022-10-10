@@ -1,5 +1,5 @@
 <script>
-	import YouTubeVideo from '$lib/components/dataset/YouTubeVideo.svelte';
+	import YouTubeVideo from '$lib/form/YouTubeVideo.svelte';
 	import { pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
 
 	let vtuber = pickVtuber();
