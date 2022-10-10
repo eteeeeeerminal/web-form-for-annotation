@@ -21,11 +21,3 @@
 </main>
 
 <Footer />
-
-<style lang="scss">
-	main {
-		margin: auto;
-		width: 100%;
-		max-width: 800px;
-	}
-</style>
