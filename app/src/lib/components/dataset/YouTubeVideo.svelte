@@ -8,6 +8,7 @@
 	const switchExpand = () => {
 		descriptionOmitted = !descriptionOmitted;
 	};
+	$: descriptionOmitted = true || videoId;
 </script>
 
 <iframe
