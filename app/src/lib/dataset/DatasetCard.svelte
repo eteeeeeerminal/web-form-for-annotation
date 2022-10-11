@@ -7,7 +7,7 @@
 		updateDataset,
 		existsAnnotationCounts,
 		getAnnotationLog,
-		updateAnnotationLog
+		setAnnotationLog
 	} from '$lib/api/database';
 	import { currentUser } from '$lib/api/auth';
 
@@ -30,12 +30,10 @@
 				lastModified = new Date();
 				lastModified.setDate(lastModifiedTime);
 			} else {
-				updateAnnotationLog(datasetId, $currentUser.uid, new Map());
+				setAnnotationLog(datasetId, $currentUser.uid, new Map());
 			}
 		}
 	});
-
-	// データがあれば次に最後に回答した日時を取得
 	// 解答にもバージョンを表記するようにしたい
 </script>
 
