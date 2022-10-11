@@ -1,11 +1,10 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { currentUser } from '$lib/api/auth';
 	import { getAnnotationCounts, getAnnotationLog } from '$lib/api/database';
 	import Title from '$lib/form/Title.svelte';
-	import YouTubeVideo from '$lib/form/YouTubeVideo.svelte';
 	import CommonForm from '$lib/vtuber-onomatopoeia/components/common-form/CommonForm.svelte';
-	import { pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
-	import { onMount } from 'svelte';
+	import VTuberForm from '$lib/vtuber-onomatopoeia/components/vtuber-form/VTuberForm.svelte';
 
 	const datasetName = 'vtuber-onomatopoeia';
 	const commonAnsKey = 'common';
@@ -26,15 +25,6 @@
 	});
 
 	$: isAnsweredCommon = Boolean(annotationLog?.get(commonAnsKey));
-
-	let vtuber = pickVtuber();
-	$: vtuberVideo = {
-		videoId: vtuber.youtube.target_video.video_id,
-		title: vtuber.youtube.target_video.title,
-		uploaderName: vtuber.youtube.name,
-		youtubeId: vtuber.youtube.channel_id,
-		description: vtuber.youtube.target_video.description
-	};
 </script>
 
 <div class="center">
@@ -42,9 +32,7 @@
 		<Title title="VTuberオノマトペ印象アノテーション" />
 		{#if isLoaded}
 			{#if isAnsweredCommon}
-				// 編集ページは, 編集ページにいってhistoryが取得できなかったら回答がありませんを表記
-				<YouTubeVideo {...vtuberVideo} />
-				<button on:click={() => (vtuber = pickVtuber())}> 回答完了 </button>
+				<VTuberForm bind:annotationLog bind:annotationCounts />
 			{:else}
 				<CommonForm bind:annotationLog />
 			{/if}
