@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { currentUser } from '$lib/api/auth';
 	import { getAnnotationCounts, getAnnotationLog } from '$lib/api/database';
-	import Title from '$lib/form/title.svelte';
+	import Title from '$lib/form/Title.svelte';
 	import YouTubeVideo from '$lib/form/YouTubeVideo.svelte';
-	import CommonForm from '$lib/vtuber-onomatopoeia/components/common-form/common-form.svelte';
+	import CommonForm from '$lib/vtuber-onomatopoeia/components/common-form/CommonForm.svelte';
 	import { pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import { onMount } from 'svelte';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AnnotationItem from './annotation-item.svelte';
+	import AnnotationItem from './AnnotationItem.svelte';
 
 	export let videoId: string;
 	export let title: string;
