@@ -54,7 +54,7 @@ export const getAnnotationCounts = async (datasetId: string) => {
 
   if (docSnap.exists()) {
     const { annotationCounts } = docSnap.data() as AnnotationCountsDoc;
-    return annotationCounts;
+    return new Map(Object.entries(annotationCounts));
   }
 
   return null;
@@ -77,7 +77,7 @@ export const getAnnotationLog = async (datasetId: string, uid: string) => {
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const { annotationLog } = docSnap.data() as AnnotationLogDoc;
-    return sortedAnnotationLog(annotationLog, false);
+    return sortedAnnotationLog(new Map(Object.entries(annotationLog)), false);
   }
 
   return null;

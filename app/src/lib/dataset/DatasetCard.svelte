@@ -27,8 +27,10 @@
 			const annotationLog = await getAnnotationLog(datasetId, $currentUser.uid);
 			if (annotationLog) {
 				const lastModifiedTime = annotationLog.values().next().value as number;
-				lastModified = new Date();
-				lastModified.setDate(lastModifiedTime);
+				if (lastModified) {
+					lastModified = new Date();
+					lastModified.setDate(lastModifiedTime);
+				}
 			} else {
 				setAnnotationLog(datasetId, $currentUser.uid, new Map());
 			}
