@@ -5,4 +5,9 @@ interface AnnotationCountsDoc {
   annotationCounts: AnnotationCounts;
 }
 
+// ミリ秒で持つ
 type AnnotationLog = Map<string, number>;
+
+interface AnnotationLogDoc {
+  annotationLog: AnnotationLog;
+}

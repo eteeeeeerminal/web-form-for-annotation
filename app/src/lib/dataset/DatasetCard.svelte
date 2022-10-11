@@ -2,9 +2,14 @@
 	import Card, { Actions } from '@smui/card';
 	import Button, { Label } from '@smui/button';
 	import { onMount } from 'svelte';
-	import { checkIsAdmin, updateDataset, existsAnnotationCounts } from '$lib/api/database';
+	import {
+		checkIsAdmin,
+		updateDataset,
+		existsAnnotationCounts,
+		getAnnotationLog,
+		updateAnnotationLog
+	} from '$lib/api/database';
 	import { currentUser } from '$lib/api/auth';
-	import { goto } from '$app/navigation';
 
 	export let name: string;
 	export let datasetId: string;
@@ -13,16 +18,24 @@
 	const datasetUrl = '/dataset/' + datasetId;
 	let readyDataset = false;
 	let isAdmin = false;
+	let lastModified: Date | null = null;
 
 	onMount(async () => {
 		readyDataset = await existsAnnotationCounts(datasetId);
 		if ($currentUser) {
 			isAdmin = await checkIsAdmin($currentUser.uid);
+			const annotationLog = await getAnnotationLog(datasetId, $currentUser.uid);
+			if (annotationLog) {
+				const lastModifiedTime = annotationLog.values().next().value as number;
+				lastModified = new Date();
+				lastModified.setDate(lastModifiedTime);
+			} else {
+				updateAnnotationLog(datasetId, $currentUser.uid, new Map());
+			}
 		}
 	});
 
 	// データがあれば次に最後に回答した日時を取得
-	// DataSetにバージョン表記を追加
 	// 解答にもバージョンを表記するようにしたい
 </script>
 
@@ -30,6 +43,9 @@
 	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
+			{#if lastModified}
+				<div class="last-modified">{lastModified}</div>
+			{/if}
 			<Button style="margin: 0.6rem 0.2rem" href={datasetUrl} variant="unelevated">
 				<Label>アノテーションする</Label>
 			</Button>
@@ -61,6 +77,11 @@
 		font-size: larger;
 		font-weight: bold;
 		width: fit-content;
+	}
+
+	.last-modified {
+		font-size: small;
+		color: lightgray;
 	}
 
 	.buttons {

@@ -6,6 +6,7 @@ import { datasetDataIds } from "$lib/dataset/datasets";
 // ↑いやいうほど読み書き発生しないから不要かも。過剰
 
 const annotationProgressDocName = "annotation-progress";
+const annotationLogDocName = "annotation-log";
 
 export const checkIsAdmin = async (uid: string) => {
   const docRef = doc(database, "admin", uid);
@@ -56,4 +57,33 @@ export const getAnnotationCounts = async (datasetId: string) => {
     return annotationCounts;
   }
 }
+
+// 昇順
+export const sortedAnnotationLog = (annotationLog: AnnotationLog, isAsc = true) => {
+  const arr = [...annotationLog];
+  if (isAsc) {
+    arr.sort((a, b) => (a[1] - b[1]));
+  } else {
+    arr.sort((a, b) => (b[1] - a[1]));
+  }
+  return new Map(arr) as AnnotationLog;
+}
+
+// 返り値は降順にソートされたmap
+export const getAnnotationLog = async (datasetId: string, uid: string) => {
+  const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const { annotationLog } = docSnap.data() as AnnotationLogDoc;
+    return sortedAnnotationLog(annotationLog, false);
+  }
+
+  return null;
+}
+
+export const updateAnnotationLog = async (datasetId: string, uid: string, annotationLog: AnnotationLog) => {
+  const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
+  await setDoc(docRef, { annotationLog: Object.fromEntries(annotationLog) } )
+}
+
 
