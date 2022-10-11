@@ -6,6 +6,7 @@
 
 	export let name: string;
 	export let datasetId: string;
+	export let version: string;
 
 	const datasetUrl = '/dataset/' + datasetId;
 	let readyDataset = false;
@@ -21,7 +22,7 @@
 </script>
 
 <Card style="margin: 1rem 0.2rem;">
-	<div class="dataset-name">{name}</div>
+	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
 			<Button style="margin: 0.6rem 0.2rem" href={datasetUrl} variant="unelevated">

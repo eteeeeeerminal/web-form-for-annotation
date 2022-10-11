@@ -4,5 +4,5 @@
 </script>
 
 {#each datasets as dataset}
-	<DatasetCard name={dataset.name} datasetId={dataset.datasetId} />
+	<DatasetCard {...dataset} />
 {/each}
