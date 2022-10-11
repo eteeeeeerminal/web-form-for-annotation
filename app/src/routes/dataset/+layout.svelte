@@ -1,18 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { currentUser } from '$lib/api/auth';
-	import { onMount } from 'svelte';
-
-	onMount(() => {
-		// TODO: 普通にリロードしたときもリダイレクトするのをどうにかしたい
-		if ($currentUser == null) {
-			goto('/');
-		}
-	});
 </script>
 
 {#if $currentUser == null}
-	<h2>トップページへリダイレクトします…</h2>
+	<h2>操作を行うには右上よりサインイン、もしくはサインアップしてください……</h2>
 {:else}
 	<slot />
 {/if}
