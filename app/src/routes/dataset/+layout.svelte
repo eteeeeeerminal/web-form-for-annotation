@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
+		// TODO: 普通にリロードしたときもリダイレクトするのをどうにかしたい
 		if ($currentUser == null) {
 			goto('/');
 		}

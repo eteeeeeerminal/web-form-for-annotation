@@ -2,7 +2,9 @@
 	import Card, { Actions } from '@smui/card';
 	import Button, { Label } from '@smui/button';
 	import { onMount } from 'svelte';
-	import { existsAnnotationCounts } from '$lib/api/database';
+	import { checkIsAdmin, updateDataset, existsAnnotationCounts } from '$lib/api/database';
+	import { currentUser } from '$lib/api/auth';
+	import { goto } from '$app/navigation';
 
 	export let name: string;
 	export let datasetId: string;
@@ -10,15 +12,18 @@
 
 	const datasetUrl = '/dataset/' + datasetId;
 	let readyDataset = false;
+	let isAdmin = false;
 
 	onMount(async () => {
 		readyDataset = await existsAnnotationCounts(datasetId);
+		if ($currentUser) {
+			isAdmin = await checkIsAdmin($currentUser.uid);
+		}
 	});
 
 	// データがあれば次に最後に回答した日時を取得
 	// DataSetにバージョン表記を追加
 	// 解答にもバージョンを表記するようにしたい
-	// admin だったら, データレコード作ってanswercount 数える部分作成
 </script>
 
 <Card style="margin: 1rem 0.2rem;">
@@ -36,6 +41,17 @@
 		<div class="warning">
 			データセットが準備されていません。このフォームの管理者に問い合わせてください。
 		</div>
+	{/if}
+	{#if isAdmin}
+		<Button
+			on:click={async () => {
+				await updateDataset(datasetId);
+				location.reload();
+			}}
+			variant="unelevated"
+		>
+			<Label>{readyDataset ? 'データセットを更新' : 'データセットを準備'}</Label>
+		</Button>
 	{/if}
 </Card>
 
