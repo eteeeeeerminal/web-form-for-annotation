@@ -1,5 +1,5 @@
 import { database } from "./firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, type DocumentData, type WithFieldValue } from "firebase/firestore";
 import { datasetDataIds } from "$lib/dataset/datasets";
 
 // storeで実装でしょ 無理そうならsingletonしませう
@@ -56,6 +56,8 @@ export const getAnnotationCounts = async (datasetId: string) => {
     const { annotationCounts } = docSnap.data() as AnnotationCountsDoc;
     return annotationCounts;
   }
+
+  return null;
 }
 
 // 昇順
@@ -86,4 +88,16 @@ export const setAnnotationLog = async (datasetId: string, uid: string, annotatio
   await setDoc(docRef, { annotationLog: Object.fromEntries(annotationLog) } )
 }
 
+export const getAnnotation = async (datasetId: string, uid: string, dataId: string) => {
+  const docRef = doc(database, datasetId, "users", uid, dataId)
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  }
+  return null;
+}
 
+export const setAnnotation = async (datasetId: string, uid: string, dataId: string, data: WithFieldValue<DocumentData>) => {
+  const docRef = doc(database, datasetId, "users", uid, dataId)
+  await setDoc(docRef, data)
+}
