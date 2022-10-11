@@ -2,6 +2,7 @@
 	import { currentUser } from '$lib/api/auth';
 	import { getAnnotationCounts, getAnnotationLog } from '$lib/api/database';
 	import YouTubeVideo from '$lib/form/YouTubeVideo.svelte';
+	import CommonForm from '$lib/vtuber-onomatopoeia/components/common-form/common-form.svelte';
 	import { pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import { onMount } from 'svelte';
 
@@ -35,23 +36,30 @@
 	};
 </script>
 
-{#if isLoaded}
-	{#if isAnsweredCommon}
-		// 編集ページは, 編集ページにいってhistoryが取得できなかったら回答がありませんを表記
-		<div class="center">
-			<YouTubeVideo {...vtuberVideo} />
-		</div>
-		<button on:click={() => (vtuber = pickVtuber())}> 回答完了 </button>
-	{:else}
-		同意書とアノテーター自身の情報
-	{/if}
-{:else}
-	<h3>ローディング中です......</h3>
-{/if}
+<div class="center">
+	<div class="centered-item">
+		{#if isLoaded}
+			{#if isAnsweredCommon}
+				// 編集ページは, 編集ページにいってhistoryが取得できなかったら回答がありませんを表記
+				<YouTubeVideo {...vtuberVideo} />
+				<button on:click={() => (vtuber = pickVtuber())}> 回答完了 </button>
+			{:else}
+				<CommonForm bind:annotationLog />
+			{/if}
+		{:else}
+			<h3>ローディング中です......</h3>
+		{/if}
+	</div>
+</div>
 
 <style lang="scss">
 	.center {
 		display: flex;
 		justify-content: center;
+	}
+
+	.centered-item {
+		max-width: $form-item-width;
+		padding: 5px;
 	}
 </style>

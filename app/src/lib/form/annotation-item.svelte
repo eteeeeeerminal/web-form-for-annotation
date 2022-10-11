@@ -2,7 +2,7 @@
 	import Card from '@smui/card';
 </script>
 
-<Card style="margin: 1rem 0.2rem; overflow: hidden">
+<Card style="margin: 0.5rem 0rem; overflow: hidden">
 	<div class="annotation-item">
 		<slot />
 	</div>
@@ -10,7 +10,6 @@
 
 <style lang="scss">
 	.annotation-item {
-		max-width: 640px;
-		width: 100vw;
+		width: 640px;
 	}
 </style>
