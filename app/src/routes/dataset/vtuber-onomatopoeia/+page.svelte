@@ -19,11 +19,11 @@
 		if ($currentUser) {
 			annotationCounts = await getAnnotationCounts(datasetName);
 			annotationLog = await getAnnotationLog(datasetName, $currentUser.uid);
-			const commonTimeStamp = annotationLog?.get(commonAnsKey);
-			isAnsweredCommon = Boolean(commonTimeStamp);
 		}
 		isLoaded = true;
 	});
+
+	$: isAnsweredCommon = Boolean(annotationLog?.get(commonAnsKey));
 
 	let vtuber = pickVtuber();
 	$: vtuberVideo = {
