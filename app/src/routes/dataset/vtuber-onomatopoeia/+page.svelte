@@ -1,6 +1,29 @@
-<script>
+<script lang="ts">
+	import { currentUser } from '$lib/api/auth';
+	import { getAnnotationCounts, getAnnotationLog } from '$lib/api/database';
 	import YouTubeVideo from '$lib/form/YouTubeVideo.svelte';
 	import { pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
+	import { onMount } from 'svelte';
+
+	const datasetName = 'vtuber-onomatopoeia';
+	const commonAnsKey = 'common';
+
+	// ちょっとこいつらの扱い合ってるかわからない
+	let annotationCounts: AnnotationCounts | null;
+	let annotationLog: AnnotationLog | null;
+
+	let isLoaded = false;
+	let isAnsweredCommon = false;
+
+	onMount(async () => {
+		if ($currentUser) {
+			annotationCounts = await getAnnotationCounts(datasetName);
+			annotationLog = await getAnnotationLog(datasetName, $currentUser.uid);
+			const commonTimeStamp = annotationLog?.get(commonAnsKey);
+			isAnsweredCommon = Boolean(commonTimeStamp);
+		}
+		isLoaded = true;
+	});
 
 	let vtuber = pickVtuber();
 	$: vtuberVideo = {
@@ -12,10 +35,19 @@
 	};
 </script>
 
-<div class="center">
-	<YouTubeVideo {...vtuberVideo} />
-</div>
-<button on:click={() => (vtuber = pickVtuber())}> 回答完了 </button>
+{#if isLoaded}
+	{#if isAnsweredCommon}
+		// 編集ページは, 編集ページにいってhistoryが取得できなかったら回答がありませんを表記
+		<div class="center">
+			<YouTubeVideo {...vtuberVideo} />
+		</div>
+		<button on:click={() => (vtuber = pickVtuber())}> 回答完了 </button>
+	{:else}
+		同意書とアノテーター自身の情報
+	{/if}
+{:else}
+	<h3>ローディング中です......</h3>
+{/if}
 
 <style lang="scss">
 	.center {
