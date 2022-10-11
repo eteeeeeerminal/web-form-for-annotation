@@ -5,7 +5,7 @@ import { datasetDataIds } from "$lib/dataset/datasets";
 // storeで実装でしょ 無理そうならsingletonしませう
 // ↑いやいうほど読み書き発生しないから不要かも。過剰
 
-const annotationProgress = "annotation-progress";
+const annotationProgressDocName = "annotation-progress";
 
 export const checkIsAdmin = async (uid: string) => {
   const docRef = doc(database, "admin", uid);
@@ -21,7 +21,7 @@ export const checkIsAdmin = async (uid: string) => {
 
 export const updateDataset = async (datasetId: string) => {
   // なければ作成
-  const docRef = doc(database, datasetId, annotationProgress);
+  const docRef = doc(database, datasetId, annotationProgressDocName);
   // TODO: ids が存在しないときの処理を書く
   const ids = datasetDataIds[datasetId];
 
@@ -38,17 +38,17 @@ export const updateDataset = async (datasetId: string) => {
     })
   }
 
-  await setDoc(docRef, { getAnnotationCounts: Object.fromEntries(docData) });
+  await setDoc(docRef, { annotationCounts: Object.fromEntries(docData) });
 }
 
 export const existsAnnotationCounts = async (datasetId: string) => {
-  const docRef = doc(database, datasetId, annotationProgress);
+  const docRef = doc(database, datasetId, annotationProgressDocName);
   const docSnap = await getDoc(docRef);
   return docSnap.exists();
 }
 
 export const getAnnotationCounts = async (datasetId: string) => {
-  const docRef = doc(database, datasetId, annotationProgress);
+  const docRef = doc(database, datasetId, annotationProgressDocName);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
