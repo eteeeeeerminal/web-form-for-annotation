@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { currentUser } from '$lib/api/auth';
 	import { getAnnotationCounts, getAnnotationLog } from '$lib/api/database';
+	import Title from '$lib/form/title.svelte';
 	import YouTubeVideo from '$lib/form/YouTubeVideo.svelte';
 	import CommonForm from '$lib/vtuber-onomatopoeia/components/common-form/common-form.svelte';
 	import { pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
@@ -38,6 +39,7 @@
 
 <div class="center">
 	<div class="centered-item">
+		<Title title="VTuberオノマトペ印象アノテーション" />
 		{#if isLoaded}
 			{#if isAnsweredCommon}
 				// 編集ページは, 編集ページにいってhistoryが取得できなかったら回答がありませんを表記
