@@ -9,7 +9,7 @@
 	import PaginationButton from '$lib/form/PaginationButton.svelte';
 	import PaymentForm from './components/PaymentForm.svelte';
 	import AnnotatorForm from './components/AnnotatorForm.svelte';
-	import Actions from '@smui/card/src/Actions.svelte';
+	import { checkbox } from './components/checkbox-info';
 
 	export let annotationLog: AnnotationLog | null;
 	let pushedSubmitted: boolean = false;
@@ -25,7 +25,7 @@
 			.array()
 			.test((v) => {
 				v = v?.filter((v) => Boolean(v));
-				return v?.length === 3;
+				return v?.length === checkbox.props.length;
 			})
 			.required(),
 		consentRadio: yup.string().equals(['同意する'], '同意した方のみ実験に参加できます。').required()
@@ -75,8 +75,6 @@
 <pre>
 	{JSON.stringify(submitted)}
 </pre>
-
-// ページング実装して3つに分けたいぃ
 
 <style lang="scss">
 	.hidden {
