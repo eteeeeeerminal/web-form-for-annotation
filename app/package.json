@@ -16,8 +16,12 @@
 	"devDependencies": {
 		"@smui/button": "^6.1.4",
 		"@smui/card": "^6.1.4",
+		"@smui/checkbox": "^6.1.4",
+		"@smui/form-field": "^6.1.4",
 		"@smui/list": "^6.1.4",
 		"@smui/menu": "^6.2.0",
+		"@smui/radio": "^6.1.4",
+		"@smui/textfield": "^6.1.4",
 		"@smui/top-app-bar": "^6.1.4",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-static": "^1.0.0-next.44",
