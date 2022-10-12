@@ -4,25 +4,19 @@
 	import Checkbox from '$lib/form/Checkbox.svelte';
 	import Radio from '$lib/form/Radio.svelte';
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
-	import { itemsToCheckboxProps } from '$lib/form/form';
-
-	const checkboxValues = ['hoge', 'fuga', 'piyo'];
-
-	const checkbox = {
-		question:
-			'上述の研究内容について、目的・方法・予期される問題等について十分な説明を受け、以下の項目を理解しました。',
-		props: itemsToCheckboxProps('consentCheck', checkboxValues)
-	};
+	import { checkbox } from './checkbox-info';
+	import ConcentFormText from './ConcentFormText.svelte';
 </script>
 
 <SectionTitle title="本実験に関して同意のお願い" />
+<ConcentFormText />
 
 <Text>
-	&emsp;ここに同意書の内容。あああああああああああああああああああああああああああああああ
-</Text>
-
-<Text>
-	&emsp;ここに同意書の内容2。あああああああああああああああああああああああああああああああ
+	&emsp;次のリンクから「実験の説明と同意依頼文」を読み、本研究の趣旨を十分理解していただくようお願いします。
+	<br />
+	<a href="https://drive.google.com/file/d/1-MA1VHSyk3Om40Du1WOmrRr3tGQIRy2v/view?usp=sharing">
+		説明と同意依頼文-アノテーション実験.pdf
+	</a>
 </Text>
 
 <AnnotationFormItem question={checkbox.question}>
