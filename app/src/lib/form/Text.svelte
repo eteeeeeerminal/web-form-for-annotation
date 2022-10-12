@@ -10,6 +10,6 @@
 
 <style lang="scss">
 	.text {
-		padding: 0.8rem;
+		padding: 1.5rem;
 	}
 </style>
