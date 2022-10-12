@@ -32,5 +32,5 @@
 </AnnotationFormItem>
 
 <AnnotationFormItem>
-	<Radio name="consestRadio" values={['同意しない', '同意する']} />
+	<Radio name="consentRadio" values={['同意しない', '同意する']} />
 </AnnotationFormItem>
