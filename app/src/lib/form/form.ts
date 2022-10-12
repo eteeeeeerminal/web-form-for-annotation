@@ -4,6 +4,6 @@ export const itemsToCheckboxProps = (namePrefix: string, values: string[]) => {
   }
 
   return values.map((v, i) => {
-    return {name: namePrefix+i, value: v} as CheckboxProp
+    return {name: namePrefix+"."+i, value: v} as CheckboxProp
   })
 };
