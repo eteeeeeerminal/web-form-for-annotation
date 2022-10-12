@@ -15,7 +15,7 @@
 	let anchorClasses: { [k: string]: boolean } = {};
 </script>
 
-<Button style={'margin:5px;'} href="/dataset" variant="unelevated">
+<Button style={'margin:5px;'} href="/dataset" color="secondary" variant="unelevated">
 	<Label>Dataset</Label>
 </Button>
 <div

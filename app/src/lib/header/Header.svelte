@@ -7,14 +7,14 @@
 </script>
 
 <header>
-	<TopAppBar variant="static" prominent={false} dense={true} color="secondary">
+	<TopAppBar variant="static" prominent={false} dense={true}>
 		<Row>
 			<Section>
-				<Title><Button color="secondary" href="/">Web Form For Annotation</Button></Title>
+				<Title><Button href="/">Web Form For Annotation</Button></Title>
 			</Section>
 			<Section align="end" toolbar>
 				{#if $currentUser == null}
-					<Button href="/sign-in" variant="outlined">
+					<Button href="/sign-in" color="secondary" variant="unelevated">
 						<Label>Sign in</Label>
 					</Button>
 				{:else}

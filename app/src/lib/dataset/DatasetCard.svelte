@@ -46,10 +46,15 @@
 			{#if lastModified}
 				<div class="last-modified">{lastModified}</div>
 			{/if}
-			<Button style="margin: 0.6rem 0.2rem" href={datasetUrl} variant="unelevated">
+			<Button
+				style="margin: 0.6rem 0.2rem"
+				href={datasetUrl}
+				color="secondary"
+				variant="unelevated"
+			>
 				<Label>アノテーションする</Label>
 			</Button>
-			<Button style="margin: 0.6rem 0.2rem;" color="secondary" variant="unelevated">
+			<Button style="margin: 0.6rem 0.2rem;" variant="unelevated">
 				<Label>回答を修正する</Label>
 			</Button>
 		</div>

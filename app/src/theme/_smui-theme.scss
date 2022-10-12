@@ -5,18 +5,14 @@
 
 // Svelte Colors!
 @use '@material/theme/index' as theme with (
-  $primary: variables.$background-color,
-  $secondary: variables.$background-color2,
+  $primary: variables.$background-color2,
+  $secondary: variables.$accent-color,
   $surface: variables.$background-color2,
   $background: variables.$background-color,
   $error: color-palette.$red-900
 );
 
-html,
-body {
-  background-color: theme.$surface;
-  color: theme.$on-surface;
-}
+
 
 a {
   color: #40b3ff;
