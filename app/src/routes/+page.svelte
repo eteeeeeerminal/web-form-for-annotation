@@ -4,5 +4,9 @@
 </div>
 
 <style lang="scss">
-	@import '../styles/main';
+	.center {
+		margin: auto;
+		width: 100%;
+		max-width: $default-width;
+	}
 </style>
