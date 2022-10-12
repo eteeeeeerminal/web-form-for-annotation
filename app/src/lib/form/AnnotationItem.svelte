@@ -10,6 +10,6 @@
 
 <style lang="scss">
 	.annotation-item {
-		width: 640px;
+		max-width: $form-item-width;
 	}
 </style>

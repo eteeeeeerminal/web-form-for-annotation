@@ -44,12 +44,13 @@
 
 <style lang="scss">
 	.center {
-		display: flex;
-		justify-content: center;
+		max-width: 95vw;
+		margin: auto;
 	}
 
 	.centered-item {
 		max-width: $form-item-width;
-		padding: 5px;
+		margin: auto;
+		display: block;
 	}
 </style>
