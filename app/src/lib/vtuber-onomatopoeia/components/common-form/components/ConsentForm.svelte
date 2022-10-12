@@ -2,6 +2,7 @@
 	import SectionTitle from '$lib/form/SectionTitle.svelte';
 	import Text from '$lib/form/Text.svelte';
 	import Checkbox from '$lib/form/Checkbox.svelte';
+	import Radio from '$lib/form/Radio.svelte';
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
 	import { itemsToCheckboxProps } from '$lib/form/form';
 
@@ -28,4 +29,8 @@
 	{#each checkbox.props as prop}
 		<Checkbox {prop} />
 	{/each}
+</AnnotationFormItem>
+
+<AnnotationFormItem>
+	<Radio name="consestRadio" values={['同意しない', '同意する']} />
 </AnnotationFormItem>
