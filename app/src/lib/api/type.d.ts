@@ -12,3 +12,8 @@ type AnnotationLogData = Map<string, number>;
 interface AnnotationLogDataDoc {
   annotationLogData: AnnotationLogData;
 }
+
+interface AnnotationLog {
+  uid: string;
+  log: AnnotationLogData;
+}

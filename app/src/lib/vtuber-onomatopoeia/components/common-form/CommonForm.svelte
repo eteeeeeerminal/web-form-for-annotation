@@ -11,9 +11,15 @@
 	import AnnotatorForm from './components/AnnotatorForm.svelte';
 	import { checkbox } from './components/checkbox-info';
 
-	export let annotationLog: AnnotationLog | null;
-	let pushedSubmitted: boolean = false;
-	let submitted: any;
+	import { getUserData } from '$lib/dataset/user-data';
+	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
+
+	const userData = getUserData(datasetId);
+	const commonFormKey = 'common';
+
+	export let submitted: boolean;
+	let pushedSubmitButton: boolean = false;
+	let submittedValues: any;
 
 	yup.setLocale({
 		mixed: {
@@ -33,7 +39,11 @@
 
 	const { form, data, isValid } = createForm({
 		onSubmit: (values) => {
-			submitted = values;
+			submittedValues = values;
+			if (pushedSubmitButton) {
+				submitted = true;
+				userData.pushLog(commonFormKey, Date.now());
+			}
 		},
 		extend: [validator({ schema }), reporter]
 	});
@@ -65,7 +75,7 @@
 		/>
 	{/if}
 	{#if pageNum == pages.length - 1}
-		<SubmitButton on:click={() => (pushedSubmitted = true)} />
+		<SubmitButton on:click={() => (pushedSubmitButton = true)} />
 	{/if}
 </form>
 
@@ -73,7 +83,7 @@
  {JSON.stringify($data, null, 2)}
 </pre>
 <pre>
-	{JSON.stringify(submitted)}
+	{JSON.stringify(submittedValues)}
 </pre>
 
 <style lang="scss">

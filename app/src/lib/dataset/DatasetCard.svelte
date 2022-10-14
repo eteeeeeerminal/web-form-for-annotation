@@ -1,39 +1,34 @@
 <script lang="ts">
-	import Card, { Actions } from '@smui/card';
+	import Card from '@smui/card';
 	import Button, { Label } from '@smui/button';
 	import { onMount } from 'svelte';
-	import {
-		checkIsAdmin,
-		updateDataset,
-		existsAnnotationCounts,
-		getAnnotationLog,
-		setAnnotationLog
-	} from '$lib/api/database';
+	import { checkIsAdmin, updateDataset } from '$lib/api/database';
 	import { currentUser } from '$lib/api/auth';
+	import { getUserData } from '$lib/dataset/user-data';
 
 	export let name: string;
 	export let datasetId: string;
 	export let version: string;
 
 	const datasetUrl = '/dataset/' + datasetId;
+	const userData = getUserData(datasetId);
 	let readyDataset = false;
 	let isAdmin = false;
 	let lastModified: Date | null = null;
 
 	onMount(async () => {
-		readyDataset = await existsAnnotationCounts(datasetId);
+		userData.annotationCounts.subscribe((count) => {
+			readyDataset = Boolean(count);
+		});
 		if ($currentUser) {
 			isAdmin = await checkIsAdmin($currentUser.uid);
-			const annotationLog = await getAnnotationLog(datasetId, $currentUser.uid);
-			if (annotationLog) {
-				const lastModifiedTime = annotationLog.values().next().value as number;
-				if (lastModified) {
-					lastModified = new Date();
-					lastModified.setDate(lastModifiedTime);
-				}
-			} else {
-				setAnnotationLog(datasetId, $currentUser.uid, new Map());
-			}
+
+			userData.annotationLog.subscribe((log) => {
+				if (log == null || log.log.size == 0) return;
+				const lastModifiedTime = log.log.values().next().value as number;
+				lastModified = new Date();
+				lastModified.setDate(lastModifiedTime);
+			});
 		}
 	});
 	// 解答にもバージョンを表記するようにしたい

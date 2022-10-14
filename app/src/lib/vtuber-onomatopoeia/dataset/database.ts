@@ -1,5 +1,7 @@
 import { targetVtubers } from "./static-data";
 
+export const datasetId = "vtuber-onomatopoeia";
+
 export const vtuberIds = Object.keys(targetVtubers);
 
 const randomPick = <T>(array: Array<T>) => {
