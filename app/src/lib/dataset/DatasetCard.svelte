@@ -26,6 +26,9 @@
 	$: lastModified = getLastModified($annotationLog);
 
 	onMount(async () => {
+		// これだと, dataset 一覧ページでログイン状態変化するとまずそうだけど
+		// そもそも, ログアウトしてるとすぐにトップページへリダイレクトされるので問題なし
+		// 普通に $: ~ で書くとasyncまわりがめんどい
 		if ($currentUser) {
 			isAdmin = await checkIsAdmin($currentUser.uid);
 		}
