@@ -19,6 +19,10 @@ export const sortedMap = (map: Map<string, number>, isAsc = true) => {
   return new Map(arr);
 }
 
+export const sortedAnnotationCounts = (annotationCounts: AnnotationCounts, isAsc = true) => {
+  return sortedMap(annotationCounts, isAsc) as AnnotationCounts;
+}
+
 export const checkIsAdmin = async (uid: string) => {
   const docRef = doc(database, "admin", uid);
   const docSnap = await getDoc(docRef);
@@ -65,10 +69,15 @@ export const getAnnotationCounts = async (datasetId: string) => {
 
   if (docSnap.exists()) {
     const { annotationCounts } = docSnap.data() as AnnotationCountsDoc;
-    return new Map(Object.entries(annotationCounts));
+    return sortedAnnotationCounts(new Map(Object.entries(annotationCounts)));
   }
 
   return null;
+}
+
+export const setAnnotationCounts = async (datasetId: string, annotationCounts: AnnotationCounts) => {
+  const docRef = doc(database, datasetId, annotationProgressDocName);
+  await setDoc(docRef, {annotationCounts: Object.fromEntries(annotationCounts)});
 }
 
 
