@@ -6,8 +6,9 @@ interface AnnotationCountsDoc {
 }
 
 // ミリ秒で持つ
-type AnnotationLog = Map<string, number>;
+// TODO: いい名前思いついたら変える
+type AnnotationLogData = Map<string, number>;
 
-interface AnnotationLogDoc {
-  annotationLog: AnnotationLog;
+interface AnnotationLogDataDoc {
+  annotationLogData: AnnotationLogData;
 }
