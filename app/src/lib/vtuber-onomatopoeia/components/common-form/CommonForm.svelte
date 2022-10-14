@@ -14,7 +14,7 @@
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 
-	const userData = getUserData(datasetId);
+	const { annotationLog, pushLog } = getUserData(datasetId);
 	const commonFormKey = 'common';
 
 	export let submitted: boolean;
@@ -41,8 +41,7 @@
 		onSubmit: (values) => {
 			submittedValues = values;
 			if (pushedSubmitButton) {
-				submitted = true;
-				userData.pushLog(commonFormKey, Date.now());
+				pushLog(commonFormKey, Date.now());
 			}
 		},
 		extend: [validator({ schema }), reporter]
@@ -50,6 +49,7 @@
 
 	let pageNum = 0;
 	const pages = [ConsentForm, PaymentForm, AnnotatorForm];
+	$: submitted = Boolean($annotationLog?.log.get(commonFormKey));
 </script>
 
 <form use:form>
