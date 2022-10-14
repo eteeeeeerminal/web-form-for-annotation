@@ -11,23 +11,19 @@
 	export let version: string;
 
 	const datasetUrl = '/dataset/' + datasetId;
-	const userData = getUserData(datasetId);
+	const { annotationLog, annotationCounts } = getUserData(datasetId);
 	let readyDataset = false;
 	let isAdmin = false;
 	let lastModified: Date | null = null;
 
 	onMount(async () => {
-		userData.annotationCounts.subscribe((count) => {
-			readyDataset = Boolean(count);
-		});
+		readyDataset = Boolean($annotationCounts);
 		if ($currentUser) {
 			isAdmin = await checkIsAdmin($currentUser.uid);
 
-			userData.annotationLog.subscribe((log) => {
-				if (log == null || log.log.size == 0) return;
-				const lastModifiedTime = log.log.values().next().value as number;
-				lastModified = new Date(lastModifiedTime);
-			});
+			if ($annotationLog == null || $annotationLog.log.size == 0) return;
+			const lastModifiedTime = $annotationLog.log.values().next().value as number;
+			lastModified = new Date(lastModifiedTime);
 		}
 	});
 	// 解答にもバージョンを表記するようにしたい

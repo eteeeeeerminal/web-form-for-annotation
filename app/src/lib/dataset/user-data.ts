@@ -1,7 +1,7 @@
 // annotationCounts 自体は 特定ユーザのデータじゃないので UserData ではない
 // TODO: rename
 
-import { writable } from 'svelte/store';
+import { writable, type Readable } from 'svelte/store';
 
 import { currentUser } from '$lib/api/auth';
 import { getAnnotationCounts, getAnnotationLog, setAnnotationCounts, setAnnotationLog, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
@@ -55,8 +55,8 @@ const createUserData = (datasetId: string) => {
   }
 
   return {
-    annotationLog: { subscribe: annotationLog.subscribe },
-    annotationCounts: { subscribe: annotationCounts.subscribe },
+    annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
+    annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
     pushLog,
   }
 }
