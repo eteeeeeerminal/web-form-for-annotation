@@ -26,8 +26,7 @@
 			userData.annotationLog.subscribe((log) => {
 				if (log == null || log.log.size == 0) return;
 				const lastModifiedTime = log.log.values().next().value as number;
-				lastModified = new Date();
-				lastModified.setDate(lastModifiedTime);
+				lastModified = new Date(lastModifiedTime);
 			});
 		}
 	});
@@ -38,9 +37,6 @@
 	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
-			{#if lastModified}
-				<div class="last-modified">{lastModified}</div>
-			{/if}
 			<Button
 				style="margin: 0.6rem 0.2rem"
 				href={datasetUrl}
@@ -57,6 +53,9 @@
 		<div class="warning">
 			データセットが準備されていません。このフォームの管理者に問い合わせてください。
 		</div>
+	{/if}
+	{#if lastModified}
+		<div class="last-modified">Updated at {lastModified.toLocaleString()}</div>
 	{/if}
 	{#if isAdmin}
 		<Button
@@ -79,9 +78,13 @@
 		width: fit-content;
 	}
 
+	// ちゃんとcss とか書く
 	.last-modified {
 		font-size: small;
-		color: lightgray;
+		font-weight: bold;
+		color: gray;
+		margin-right: 1rem;
+		margin-left: auto;
 	}
 
 	.buttons {
