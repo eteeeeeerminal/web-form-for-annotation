@@ -101,7 +101,7 @@ export const getAnnotationLog = async (datasetId: string, uid: string) => {
 
 export const setAnnotationLog = async (datasetId: string, uid: string, annotationLog: AnnotationLogData) => {
   const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
-  await setDoc(docRef, { annotationLog: Object.fromEntries(annotationLog) } )
+  await setDoc(docRef, { annotationLogData: Object.fromEntries(annotationLog) } )
 }
 
 export const getAnnotation = async (datasetId: string, uid: string, dataId: string) => {
