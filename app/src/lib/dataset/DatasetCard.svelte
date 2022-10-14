@@ -16,14 +16,18 @@
 	let isAdmin = false;
 	let lastModified: Date | null = null;
 
+	const getLastModified = (log: AnnotationLog | null) => {
+		if (log == null || log.log.size == 0) return null;
+		const lastModifiedTime = log.log.values().next().value as number;
+		return new Date(lastModifiedTime);
+	};
+
+	$: readyDataset = Boolean($annotationCounts);
+	$: lastModified = getLastModified($annotationLog);
+
 	onMount(async () => {
-		readyDataset = Boolean($annotationCounts);
 		if ($currentUser) {
 			isAdmin = await checkIsAdmin($currentUser.uid);
-
-			if ($annotationLog == null || $annotationLog.log.size == 0) return;
-			const lastModifiedTime = $annotationLog.log.values().next().value as number;
-			lastModified = new Date(lastModifiedTime);
 		}
 	});
 	// 解答にもバージョンを表記するようにしたい
