@@ -8,6 +8,17 @@ import { datasetDataIds } from "$lib/dataset/datasets";
 const annotationProgressDocName = "annotation-progress";
 const annotationLogDocName = "annotation-log";
 
+// 昇順
+export const sortedMap = (map: Map<string, number>, isAsc = true) => {
+  const arr = [...map];
+  if (isAsc) {
+    arr.sort((a, b) => (a[1] - b[1]));
+  } else {
+    arr.sort((a, b) => (b[1] - a[1]));
+  }
+  return new Map(arr);
+}
+
 export const checkIsAdmin = async (uid: string) => {
   const docRef = doc(database, "admin", uid);
   const docSnap = await getDoc(docRef);
@@ -60,15 +71,10 @@ export const getAnnotationCounts = async (datasetId: string) => {
   return null;
 }
 
-// 昇順
-export const sortedAnnotationLog = (annotationLog: AnnotationLogData, isAsc = true) => {
-  const arr = [...annotationLog];
-  if (isAsc) {
-    arr.sort((a, b) => (a[1] - b[1]));
-  } else {
-    arr.sort((a, b) => (b[1] - a[1]));
-  }
-  return new Map(arr) as AnnotationLogData;
+
+// 降順(更新日時が最近のものが最初に)
+export const sortedAnnotationLog = (annotationLog: AnnotationLogData, isAsc = false) => {
+  return sortedMap(annotationLog, isAsc) as AnnotationLogData;
 }
 
 // 返り値は降順にソートされたmap
@@ -78,7 +84,7 @@ export const getAnnotationLog = async (datasetId: string, uid: string) => {
   if (docSnap.exists()) {
     const { annotationLogData } = docSnap.data() as AnnotationLogDataDoc;
 
-    return sortedAnnotationLog(new Map(Object.entries(annotationLogData)), false);
+    return sortedAnnotationLog(new Map(Object.entries(annotationLogData)));
   }
 
   return null;
