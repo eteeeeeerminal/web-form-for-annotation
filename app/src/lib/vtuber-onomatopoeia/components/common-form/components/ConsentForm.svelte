@@ -6,6 +6,11 @@
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
 	import { checkbox } from './checkbox-info';
 	import ConcentFormText from './ConcentFormText.svelte';
+
+	const consentRadio = {
+		name: "consentRadio",
+		values: ['同意しない', '同意する'],
+	} as RadioButtonProp
 </script>
 
 <SectionTitle title="本実験に関して同意のお願い" />
@@ -26,5 +31,5 @@
 </AnnotationFormItem>
 
 <AnnotationFormItem>
-	<Radio name="consentRadio" values={['同意しない', '同意する']} />
+	<Radio prop={consentRadio}/>
 </AnnotationFormItem>
