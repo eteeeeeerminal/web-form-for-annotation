@@ -16,3 +16,11 @@ interface SelectProp {
   values: string[];
   initStat: string | undefined;
 }
+
+interface NPointProp {
+  name: string;
+  n: number;
+  leftWord: string;
+  rightWord: string;
+  initStat: string | undefined;
+}
