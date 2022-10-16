@@ -14,10 +14,14 @@
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 
-	const { annotationLog, pushLog } = getUserData(datasetId);
+
+	// 描画タイミングの問題で initStat は上から入れます。ローディング表示も上から
+	const { annotationLog, submit } = getUserData(datasetId);
 	const commonFormKey = 'common';
+	const formName = '共通フォーム'
 
 	export let submitted: boolean;
+
 	let pushedSubmitButton: boolean = false;
 	let submittedValues: any;
 
@@ -41,7 +45,7 @@
 		onSubmit: (values) => {
 			submittedValues = values;
 			if (pushedSubmitButton) {
-				pushLog(commonFormKey, Date.now());
+				submit(commonFormKey, formName, values);
 			}
 		},
 		extend: [validator({ schema }), reporter]
@@ -49,13 +53,14 @@
 
 	let pageNum = 0;
 	const pages = [ConsentForm, PaymentForm, AnnotatorForm];
+	// const pageProps = [];
 	$: submitted = Boolean($annotationLog?.log.get(commonFormKey));
 </script>
 
 <form use:form>
 	{#each pages as page, i}
 		<div class={i != pageNum ? 'hidden' : ''}>
-			<svelte:component this={page} />
+			<svelte:component this={page}/>
 		</div>
 	{/each}
 	{#if pageNum > 0}
@@ -82,10 +87,6 @@
 <pre>
  {JSON.stringify($data, null, 2)}
 </pre>
-<pre>
-	{JSON.stringify(submittedValues)}
-</pre>
-
 <style lang="scss">
 	.hidden {
 		display: none;

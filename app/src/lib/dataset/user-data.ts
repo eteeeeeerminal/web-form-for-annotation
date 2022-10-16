@@ -4,7 +4,7 @@
 import { writable, type Readable } from 'svelte/store';
 
 import { currentUser } from '$lib/api/auth';
-import { getAnnotationCounts, getAnnotationLog, setAnnotationCounts, setAnnotationLog, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
+import { getAnnotation, getAnnotationCounts, getAnnotationLog, setAnnotation, setAnnotationCounts, setAnnotationLog, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
 import { datasets } from './datasets';
 
 const createUserData = (datasetId: string) => {
@@ -27,7 +27,7 @@ const createUserData = (datasetId: string) => {
     }
   })
 
-  const pushLog = (dataId: string, timestamp: number) => {
+  const submit = (dataId: string, displayName: string, values: unknown) => {
     annotationLog.update(log => {
       if (log == null) throw new Error("Cannot pushLog when annotationLog is null");
       if (log.log.has(dataId)) {
@@ -54,10 +54,22 @@ const createUserData = (datasetId: string) => {
     })
   }
 
+  const getFormValue = async (dataId: string) => {
+    let uid: string | undefined;
+    const unsbscribe = annotationLog.subscribe(log => (uid = log?.uid));
+    let formValue;
+    if (uid) {
+      formValue = await getAnnotation(datasetId, uid, dataId);
+    }
+    unsbscribe();
+    return formValue;
+  }
+
   return {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
-    pushLog,
+    submit,
+    getFormValue,
   }
 }
 
