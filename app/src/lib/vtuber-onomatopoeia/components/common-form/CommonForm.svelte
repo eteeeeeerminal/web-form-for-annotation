@@ -5,8 +5,8 @@
 	import * as yup from 'yup';
 
 	import ConsentForm from './components/ConsentForm.svelte';
-	import SubmitButton from '$lib/form/SubmitButton.svelte';
-	import PaginationButton from '$lib/form/PaginationButton.svelte';
+	import SubmitButton from '$lib/button/SubmitButton.svelte';
+	import PaginationButton from '$lib/button/PaginationButton.svelte';
 	import PaymentForm from './components/PaymentForm.svelte';
 	import AnnotatorForm from './components/AnnotatorForm.svelte';
 	import { checkbox } from './components/checkbox-info';

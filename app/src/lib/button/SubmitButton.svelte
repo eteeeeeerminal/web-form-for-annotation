@@ -1,11 +1,9 @@
 <script lang="ts">
-	import Button from '@smui/button';
+	import PrimaryButton from './PrimaryButton.svelte';
 </script>
 
 <div class="submit">
-	<Button style="width: 100%; height: 100%" type="submit" variant="unelevated" on:click>
-		<div class="button-word">送信</div>
-	</Button>
+	<PrimaryButton label="送信" on:click />
 </div>
 
 <style lang="scss">

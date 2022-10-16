@@ -1,12 +1,10 @@
 <script lang="ts">
-	import Button from '@smui/button';
+	import SecondaryButton from './SecondaryButton.svelte';
 	export let name: string;
 </script>
 
 <div class="pagination">
-	<Button style="width: 100%; height: 100%" color="secondary" variant="unelevated" on:click>
-		<div>{name}</div>
-	</Button>
+	<SecondaryButton on:click label={name} />
 </div>
 
 <style lang="scss">
