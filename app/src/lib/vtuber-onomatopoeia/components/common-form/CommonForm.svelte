@@ -14,16 +14,12 @@
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 
-
 	// 描画タイミングの問題で initStat は上から入れます。ローディング表示も上から
 	const { annotationLog, submit } = getUserData(datasetId);
 	const commonFormKey = 'common';
-	const formName = '共通フォーム'
+	const formName = '共通フォーム';
 
 	export let submitted: boolean;
-
-	let pushedSubmitButton: boolean = false;
-	let submittedValues: any;
 
 	yup.setLocale({
 		mixed: {
@@ -42,12 +38,7 @@
 	});
 
 	const { form, data, isValid } = createForm({
-		onSubmit: (values) => {
-			submittedValues = values;
-			if (pushedSubmitButton) {
-				submit(commonFormKey, formName, values);
-			}
-		},
+		onSubmit: (values) => {},
 		extend: [validator({ schema }), reporter]
 	});
 
@@ -60,7 +51,7 @@
 <form use:form>
 	{#each pages as page, i}
 		<div class={i != pageNum ? 'hidden' : ''}>
-			<svelte:component this={page}/>
+			<svelte:component this={page} />
 		</div>
 	{/each}
 	{#if pageNum > 0}
@@ -80,13 +71,20 @@
 		/>
 	{/if}
 	{#if pageNum == pages.length - 1}
-		<SubmitButton on:click={() => (pushedSubmitButton = true)} />
+		<SubmitButton
+			on:click={() => {
+				if ($isValid) {
+					submit(commonFormKey, formName, $data);
+				}
+			}}
+		/>
 	{/if}
 </form>
 
 <pre>
  {JSON.stringify($data, null, 2)}
 </pre>
+
 <style lang="scss">
 	.hidden {
 		display: none;
