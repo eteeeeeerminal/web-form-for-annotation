@@ -13,7 +13,4 @@
 		height: 2.5rem;
 		margin: 0.2rem 0.6rem 1rem 0;
 	}
-	.button-word {
-		font-size: larger;
-	}
 </style>
