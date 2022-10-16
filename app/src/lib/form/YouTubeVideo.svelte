@@ -15,32 +15,34 @@
 </script>
 
 <AnnotationItem>
-	<div class="video-wrapper">
-		<iframe
-			src="https://www.youtube.com/embed/{videoId}"
-			class="video"
-			title="YouTube video player"
-			frameborder="0"
-			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-			allowfullscreen
-		/>
-	</div>
+	<div style="border-radius: 5px; overflow: hidden;">
+		<div class="video-wrapper">
+			<iframe
+				src="https://www.youtube.com/embed/{videoId}"
+				class="video"
+				title="YouTube video player"
+				frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+				allowfullscreen
+			/>
+		</div>
 
-	<div>
-		<div class="title">
-			{title}
-		</div>
-		<div class="description">
-			<a class="name" href="https://www.youtube.com/channel/{youtubeId}">
-				{uploaderName}
-			</a>
-			<div class={descriptionOmitted ? 'omitted' : 'expanded'}>
-				{@html description.replace(/\n/g, '<br/>')}
+		<div>
+			<div class="title">
+				{title}
 			</div>
+			<div class="description">
+				<a class="name" href="https://www.youtube.com/channel/{youtubeId}">
+					{uploaderName}
+				</a>
+				<div class={descriptionOmitted ? 'omitted' : 'expanded'}>
+					{@html description.replace(/\n/g, '<br/>')}
+				</div>
+			</div>
+			<button class="expandButton" on:click={switchExpand}>
+				{descriptionOmitted ? 'もっと見る' : '一部を表示'}
+			</button>
 		</div>
-		<button class="expandButton" on:click={switchExpand}>
-			{descriptionOmitted ? 'もっと見る' : '一部を表示'}
-		</button>
 	</div>
 </AnnotationItem>
 
