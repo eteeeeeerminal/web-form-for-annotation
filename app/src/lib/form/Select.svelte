@@ -15,7 +15,7 @@
 	<Select
 		bind:value={selected}
 		label="選んでください"
-		variant="outlined"
+		variant="standard"
 		style="margin: 0.6rem 1rem 0.6rem;"
 	>
 		<Option value="" />

@@ -14,7 +14,7 @@
 </script>
 
 <div use:field on:blur={onBlur}>
-	<Textfield bind:value label={placeholder} variant="outlined" style="margin: 0.6rem 1rem 0.6rem;">
+	<Textfield bind:value label={placeholder} style="margin: 0.6rem 1rem 0.6rem; width: 93%;">
 		{#if helperText}
 			<HelperText slot="helper">{helperText}</HelperText>
 		{/if}
