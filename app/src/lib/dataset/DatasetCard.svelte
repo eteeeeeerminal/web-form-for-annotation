@@ -11,6 +11,7 @@
 	export let version: string;
 
 	const datasetUrl = '/dataset/' + datasetId;
+	const modifyUrl = datasetUrl + '/modify';
 	const { annotationLog, annotationCounts } = getUserData(datasetId);
 	let readyDataset = false;
 	let isAdmin = false;
@@ -48,7 +49,7 @@
 			>
 				<Label>アノテーションする</Label>
 			</Button>
-			<Button style="margin: 0.6rem 0.2rem;" variant="unelevated">
+			<Button style="margin: 0.6rem 0.2rem;" href={modifyUrl} variant="unelevated">
 				<Label>回答を修正する</Label>
 			</Button>
 		</div>
@@ -81,7 +82,6 @@
 		width: fit-content;
 	}
 
-	// ちゃんとcss とか書く
 	.last-modified {
 		font-size: small;
 		font-weight: bold;
