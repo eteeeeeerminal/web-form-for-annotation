@@ -36,6 +36,8 @@
 		justify-content: center;
 		flex-flow: row;
 		width: 100%;
+
+		margin-bottom: 1rem;
 	}
 
 	.number {
