@@ -6,6 +6,9 @@
 	import { currentUser } from '$lib/api/auth';
 	import { getUserData } from '$lib/dataset/user-data';
 
+	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
+	import SecondaryButton from '$lib/button/SecondaryButton.svelte';
+
 	export let name: string;
 	export let datasetId: string;
 	export let version: string;
@@ -41,17 +44,12 @@
 	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
-			<Button style="margin: 0.6rem 0.2rem" href={datasetUrl} variant="unelevated">
-				<Label>アノテーションする</Label>
-			</Button>
-			<Button
-				style="margin: 0.6rem 0.2rem;"
-				href={modifyUrl}
-				color="secondary"
-				variant="unelevated"
-			>
-				<Label>回答を修正する</Label>
-			</Button>
+			<div class="button">
+				<PrimaryButton href={datasetUrl} label="アノテーションする" />
+			</div>
+			<div class="button">
+				<SecondaryButton href={modifyUrl} label="回答を修正する" />
+			</div>
 		</div>
 	{:else}
 		<div class="warning">
@@ -87,6 +85,10 @@
 		color: gray;
 		margin-right: 1rem;
 		margin-left: auto;
+	}
+
+	.button {
+		margin: 0.6rem 0.2rem;
 	}
 
 	.buttons {
