@@ -7,15 +7,15 @@
 </script>
 
 <header>
-	<TopAppBar variant="static" prominent={false} dense={true}>
+	<TopAppBar variant="static" color="secondary" prominent={false} dense={true}>
 		<Row>
 			<Section>
-				<Title><Button href="/">Web Form For Annotation</Button></Title>
+				<Title><Button href="/" color="secondary">Web Form For Annotation</Button></Title>
 			</Section>
 			<Section align="end" toolbar>
 				{#if $currentUser == null}
-					<Button href="/sign-in" color="secondary" variant="unelevated">
-						<Label>Sign in</Label>
+					<Button href="/sign-in" variant="unelevated">
+						<Label><div class="primary-button">Sign in</div></Label>
 					</Button>
 				{:else}
 					<UserHeaderItems currentUser={$currentUser} />
@@ -24,3 +24,9 @@
 		</Row>
 	</TopAppBar>
 </header>
+
+<style lang="scss">
+	.primary-button {
+		color: $background-color2;
+	}
+</style>

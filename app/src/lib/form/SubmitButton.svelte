@@ -3,13 +3,7 @@
 </script>
 
 <div class="submit">
-	<Button
-		style="width: 100%; height: 100%"
-		type="submit"
-		color="secondary"
-		variant="unelevated"
-		on:click
-	>
+	<Button style="width: 100%; height: 100%" type="submit" variant="unelevated" on:click>
 		<div class="button-word">送信</div>
 	</Button>
 </div>

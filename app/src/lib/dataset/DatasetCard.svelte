@@ -41,15 +41,15 @@
 	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
+			<Button style="margin: 0.6rem 0.2rem" href={datasetUrl} variant="unelevated">
+				<Label>アノテーションする</Label>
+			</Button>
 			<Button
-				style="margin: 0.6rem 0.2rem"
-				href={datasetUrl}
+				style="margin: 0.6rem 0.2rem;"
+				href={modifyUrl}
 				color="secondary"
 				variant="unelevated"
 			>
-				<Label>アノテーションする</Label>
-			</Button>
-			<Button style="margin: 0.6rem 0.2rem;" href={modifyUrl} variant="unelevated">
 				<Label>回答を修正する</Label>
 			</Button>
 		</div>
@@ -67,7 +67,6 @@
 				await updateDataset(datasetId);
 				location.reload();
 			}}
-			variant="unelevated"
 		>
 			<Label>{readyDataset ? 'データセットを更新' : 'データセットを準備'}</Label>
 		</Button>

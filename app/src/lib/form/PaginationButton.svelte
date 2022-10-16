@@ -4,7 +4,7 @@
 </script>
 
 <div class="pagination">
-	<Button style="width: 100%; height: 100%" color="primary" variant="unelevated" on:click>
+	<Button style="width: 100%; height: 100%" color="secondary" variant="unelevated" on:click>
 		<div>{name}</div>
 	</Button>
 </div>

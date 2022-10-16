@@ -15,8 +15,8 @@
 	let anchorClasses: { [k: string]: boolean } = {};
 </script>
 
-<Button style={'margin:5px;'} href="/dataset" color="secondary" variant="unelevated">
-	<Label>Dataset</Label>
+<Button style={'margin:5px;'} href="/dataset" variant="unelevated">
+	<Label><div class="primary-button">Dataset</div></Label>
 </Button>
 <div
 	class={Object.keys(anchorClasses).join(' ')}
@@ -36,7 +36,12 @@
 	}}
 	bind:this={anchor}
 >
-	<Button on:click={() => menu.setOpen(true)} variant="outlined">
+	<Button
+		on:click={() => menu.setOpen(true)}
+		color="secondary"
+		variant="outlined"
+		style="border: thin solid lightgray"
+	>
 		<Label>{currentUser.displayName}</Label>
 	</Button>
 	<Menu bind:this={menu} anchor={false} bind:anchorElement={anchor} anchorCorner="BOTTOM_LEFT">
@@ -45,3 +50,9 @@
 		</List>
 	</Menu>
 </div>
+
+<style lang="scss">
+	.primary-button {
+		color: $background-color2;
+	}
+</style>

@@ -11,12 +11,7 @@
 	<div class="data-name">{displayName}</div>
 	<div class="last-modified">Updated at {new Date(timestamp).toLocaleString()}</div>
 	<div class="buttons">
-		<Button
-			style="margin: 0rem 0.2rem 0.6rem;"
-			on:click={modifyCallback}
-			color="secondary"
-			variant="unelevated"
-		>
+		<Button style="margin: 0rem 0.2rem 0.6rem;" on:click={modifyCallback} variant="unelevated">
 			<Label>修正</Label>
 		</Button>
 		// 削除ボタン予定地
