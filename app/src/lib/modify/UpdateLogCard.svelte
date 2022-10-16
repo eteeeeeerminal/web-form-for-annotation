@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Card from '@smui/card';
-	import Button, { Label } from '@smui/button';
+	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
 
 	export let displayName: string;
 	export let timestamp: number;
@@ -11,9 +11,9 @@
 	<div class="data-name">{displayName}</div>
 	<div class="last-modified">Updated at {new Date(timestamp).toLocaleString()}</div>
 	<div class="buttons">
-		<Button style="margin: 0rem 0.2rem 0.6rem;" on:click={modifyCallback} variant="unelevated">
-			<Label>修正</Label>
-		</Button>
+		<div style="margin: 0rem 0.2rem 0.6rem;">
+			<PrimaryButton on:click={modifyCallback} label="修正" />
+		</div>
 		// 削除ボタン予定地
 	</div>
 </Card>
