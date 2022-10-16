@@ -10,3 +10,9 @@ interface RadioButtonProp {
   initStat: string | undefined;
   doNewLine: boolean;
 }
+
+interface SelectProp {
+  name: string;
+  values: string[];
+  initStat: string | undefined;
+}
