@@ -7,10 +7,14 @@
 </script>
 
 <header>
-	<TopAppBar variant="static" color="secondary" prominent={false} dense={true}>
+	<TopAppBar variant="static" style="background: whitesmoke;" prominent={false} dense={true}>
 		<Row>
 			<Section>
-				<Title><Button href="/" color="secondary">Web Form For Annotation</Button></Title>
+				<Title>
+					<Button href="/" color="secondary">
+						<div class="title">Web Form For Annotation</div>
+					</Button>
+				</Title>
 			</Section>
 			<Section align="end" toolbar>
 				{#if $currentUser == null}
@@ -26,6 +30,10 @@
 </header>
 
 <style lang="scss">
+	.title {
+		color: $text-color;
+	}
+
 	.primary-button {
 		color: $background-color2;
 	}
