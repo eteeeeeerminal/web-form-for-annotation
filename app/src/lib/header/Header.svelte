@@ -4,6 +4,8 @@
 
 	import { currentUser } from '$lib/api/auth';
 	import UserHeaderItems from './UserHeaderItems.svelte';
+	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
+	import SecondaryButton from '$lib/button/SecondaryButton.svelte';
 </script>
 
 <header>
@@ -11,16 +13,12 @@
 		<Row>
 			<Section>
 				<Title>
-					<Button href="/" color="secondary">
-						<div class="title">Web Form For Annotation</div>
-					</Button>
+					<SecondaryButton href="/" label="Web Form For Annotation" />
 				</Title>
 			</Section>
 			<Section align="end" toolbar>
 				{#if $currentUser == null}
-					<Button href="/sign-in" variant="unelevated">
-						<Label><div class="primary-button">Sign in</div></Label>
-					</Button>
+					<PrimaryButton href="/sign-in" label="Sign in" />
 				{:else}
 					<UserHeaderItems currentUser={$currentUser} />
 				{/if}
@@ -28,13 +26,3 @@
 		</Row>
 	</TopAppBar>
 </header>
-
-<style lang="scss">
-	.title {
-		color: $text-color;
-	}
-
-	.primary-button {
-		color: $background-color2;
-	}
-</style>

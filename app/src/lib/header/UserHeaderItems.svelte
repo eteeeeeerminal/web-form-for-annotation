@@ -3,10 +3,11 @@
 	import type { MenuComponentDev } from '@smui/menu';
 	import Menu from '@smui/menu';
 	import { Anchor } from '@smui/menu-surface';
-	import List, { Item, Text, Separator } from '@smui/list';
+	import List, { Item } from '@smui/list';
 
 	import { signOut } from '$lib/api/auth';
 	import type { User } from '$lib/api/auth';
+	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
 
 	export let currentUser: User;
 
@@ -15,9 +16,8 @@
 	let anchorClasses: { [k: string]: boolean } = {};
 </script>
 
-<Button style={'margin:5px;'} href="/dataset" variant="unelevated">
-	<Label><div class="primary-button">Dataset</div></Label>
-</Button>
+<PrimaryButton href="/dataset" label="Dataset" />
+
 <div
 	class={Object.keys(anchorClasses).join(' ')}
 	style={'margin: 0rem 1rem'}
@@ -42,7 +42,7 @@
 		variant="outlined"
 		style="border: thin solid lightgray"
 	>
-		<Label>{currentUser.displayName}</Label>
+		<div class="secondary-button">{currentUser.displayName}</div>
 	</Button>
 	<Menu bind:this={menu} anchor={false} bind:anchorElement={anchor} anchorCorner="BOTTOM_LEFT">
 		<List>
@@ -54,5 +54,9 @@
 <style lang="scss">
 	.primary-button {
 		color: $background-color2;
+	}
+
+	.secondary-button {
+		color: $text-color;
 	}
 </style>
