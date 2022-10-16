@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Title from '$lib/form/Title.svelte';
 	import CommonForm from '$lib/vtuber-onomatopoeia/components/common-form/CommonForm.svelte';
-	import VTuberForm from '$lib/vtuber-onomatopoeia/components/vtuber-form/VTuberForm.svelte';
+	import VTuberFormPage from '$lib/vtuber-onomatopoeia/components/vtuber-form/VTuberFormPage.svelte';
+	import { getUserData } from '$lib/dataset/user-data';
+	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
+
+	const { annotationLog } = getUserData(datasetId);
 
 	let isSubmittedCommon = false;
 </script>
@@ -9,10 +13,13 @@
 <div class="center">
 	<div class="centered-item">
 		<Title title="VTuberオノマトペ印象アノテーション" />
-		{#if isSubmittedCommon}
-			<VTuberForm />
+		{#if $annotationLog == null}
+			Loading...
+		{:else if isSubmittedCommon}
+			<VTuberFormPage />
 		{:else}
 			<CommonForm bind:submitted={isSubmittedCommon} />
+			// 戻るボタン置く
 		{/if}
 	</div>
 </div>
