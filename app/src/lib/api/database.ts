@@ -83,7 +83,13 @@ export const setAnnotationCounts = async (datasetId: string, annotationCounts: A
 
 // 降順(更新日時が最近のものが最初に)
 export const sortedAnnotationLog = (annotationLog: AnnotationLogData, isAsc = false) => {
-  return sortedMap(annotationLog, isAsc) as AnnotationLogData;
+  const arr = [...annotationLog];
+  if (isAsc) {
+    arr.sort((a, b) => (a[1].timestamp - b[1].timestamp));
+  } else {
+    arr.sort((a, b) => (b[1].timestamp - a[1].timestamp));
+  }
+  return new Map(arr);
 }
 
 // 返り値は降順にソートされたmap
@@ -113,7 +119,7 @@ export const getAnnotation = async (datasetId: string, uid: string, dataId: stri
   return null;
 }
 
-export const setAnnotation = async (datasetId: string, uid: string, dataId: string, data: WithFieldValue<DocumentData>) => {
+export const setAnnotation = async (datasetId: string, uid: string, dataId: string, data: unknown) => {
   const docRef = doc(database, datasetId, "users", uid, dataId)
   await setDoc(docRef, data)
 }

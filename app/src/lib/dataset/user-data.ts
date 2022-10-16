@@ -46,7 +46,11 @@ const createUserData = (datasetId: string) => {
         })
       }
 
-      log.log.set(dataId, timestamp);
+      setAnnotation(datasetId, log.uid, dataId, values);
+      log.log.set(dataId, {
+        displayName,
+        timestamp: Date.now()
+      });
       setAnnotationLog(datasetId, log.uid, log.log);
       log.log = sortedAnnotationLog(log.log);
 

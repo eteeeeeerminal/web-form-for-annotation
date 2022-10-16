@@ -18,7 +18,7 @@
 
 	const getLastModified = (log: AnnotationLog | null) => {
 		if (log == null || log.log.size == 0) return null;
-		const lastModifiedTime = log.log.values().next().value as number;
+		const lastModifiedTime = log.log.values().next().value.timestamp;
 		return new Date(lastModifiedTime);
 	};
 

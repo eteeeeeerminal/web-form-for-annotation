@@ -7,7 +7,7 @@ interface AnnotationCountsDoc {
 
 // ミリ秒で持つ
 // TODO: いい名前思いついたら変える
-type AnnotationLogData = Map<string, number>;
+type AnnotationLogData = Map<string, {displayName: string, timestamp: number}>;
 
 interface AnnotationLogDataDoc {
   annotationLogData: AnnotationLogData;
