@@ -32,6 +32,7 @@
 	const schema = yup.object({});
 
 	const { form, data, isValid } = createForm({
+		initialValues: initValues,
 		onSubmit: (values) => {},
 		extend: [validator({ schema }), reporter]
 	});
