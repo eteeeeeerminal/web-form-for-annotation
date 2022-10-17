@@ -1,5 +1,5 @@
 import { database } from "./firebase";
-import { doc, getDoc, setDoc, type DocumentData, type WithFieldValue } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc, type DocumentData, type WithFieldValue } from "firebase/firestore";
 import { datasetDataIds } from "$lib/dataset/datasets";
 
 // storeで実装でしょ 無理そうならsingletonしませう
@@ -107,11 +107,11 @@ export const getAnnotationLog = async (datasetId: string, uid: string) => {
 
 export const setAnnotationLog = async (datasetId: string, uid: string, annotationLog: AnnotationLogData) => {
   const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
-  await setDoc(docRef, { annotationLogData: Object.fromEntries(annotationLog) } )
+  await setDoc(docRef, { annotationLogData: Object.fromEntries(annotationLog) });
 }
 
 export const getAnnotation = async (datasetId: string, uid: string, dataId: string) => {
-  const docRef = doc(database, datasetId, "users", uid, dataId)
+  const docRef = doc(database, datasetId, "users", uid, dataId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return docSnap.data() as DBData;
@@ -120,6 +120,11 @@ export const getAnnotation = async (datasetId: string, uid: string, dataId: stri
 }
 
 export const setAnnotation = async (datasetId: string, uid: string, dataId: string, data: unknown) => {
-  const docRef = doc(database, datasetId, "users", uid, dataId)
-  await setDoc(docRef, data)
+  const docRef = doc(database, datasetId, "users", uid, dataId);
+  await setDoc(docRef, data);
+}
+
+export const deleteAnnotation = async (datasetId: string, uid: string, dataId: string) => {
+  const docRef = doc(database, datasetId, "users", uid, dataId);
+  await deleteDoc(docRef);
 }

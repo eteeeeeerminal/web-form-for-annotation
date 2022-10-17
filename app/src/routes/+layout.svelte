@@ -1,4 +1,5 @@
 <script async script lang="ts">
+	import Modal from 'svelte-simple-modal';
 	import Header from '$lib/header/Header.svelte';
 	import Footer from '$lib/footer/Footer.svelte';
 </script>
@@ -14,10 +15,12 @@
 	<link rel="stylesheet" href="/smui.css" />
 </svelte:head>
 
-<Header />
+<Modal closeButton={false}>
+	<Header />
 
-<main>
-	<slot />
-</main>
+	<main>
+		<slot />
+	</main>
 
-<Footer />
+	<Footer />
+</Modal>

@@ -4,7 +4,7 @@
 import { writable, type Readable } from 'svelte/store';
 
 import { currentUser } from '$lib/api/auth';
-import { getAnnotation, getAnnotationCounts, getAnnotationLog, setAnnotation, setAnnotationCounts, setAnnotationLog, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
+import { deleteAnnotation, getAnnotation, getAnnotationCounts, getAnnotationLog, setAnnotation, setAnnotationCounts, setAnnotationLog, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
 import { datasets } from './datasets';
 
 const createUserData = (datasetId: string) => {
@@ -69,11 +69,29 @@ const createUserData = (datasetId: string) => {
     return formValue;
   }
 
+  const deleteFormValue = async (dataId: string) => {
+    annotationLog.update(log => {
+      if (log == null) throw new Error("Cannot pushLog when annotationLog is null");
+      log.log.delete(dataId)
+      setAnnotationLog(datasetId, log.uid, log.log);
+      deleteAnnotation(datasetId, log.uid, dataId);
+      return log;
+    })
+    annotationCounts.update(count => {
+      if (count == null) throw new Error("データセットが準備されていません。");
+      const currentCount = count.get(dataId);
+      count.set(dataId, (currentCount) ? currentCount - 1 : 1);
+      setAnnotationCounts(datasetId, count);
+      return sortedAnnotationCounts(count);
+    })
+  }
+
   return {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
     submit,
     getFormValue,
+    deleteFormValue,
   }
 }
 
