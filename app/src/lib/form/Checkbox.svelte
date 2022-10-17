@@ -7,15 +7,12 @@
 
 	const { field, onInput, onBlur } = createField(prop.name);
 
-	let checked: string[] = prop.initStat ? prop.initStat : [];
-
-	// 更新時に onInput を呼びたい
-	$: onInput(checked);
+	$: onInput(prop.checked);
 </script>
 
 <div use:field on:blur={onBlur}>
 	<FormField>
-		<CheckBox bind:group={checked} value={prop.value} />
+		<CheckBox bind:group={prop.checked} value={prop.value} />
 		<span slot="label">{prop.value}</span>
 	</FormField>
 	<br />
