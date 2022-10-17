@@ -18,7 +18,7 @@
 	$: {
 		checkbox.props.forEach((value, i) => {
 			if (Array.isArray(initValues.consentCheck)) {
-				value.checked = [initValues.consentCheck[i]];
+				value.checked = initValues.consentCheck[i];
 			}
 		});
 		consentRadio.selected = String(initValues.consentRadio);

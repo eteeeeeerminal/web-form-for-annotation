@@ -7,12 +7,13 @@
 
 	const { field, onInput, onBlur } = createField(prop.name);
 
-	$: onInput(prop.checked);
+	let checked = prop.checked ? [prop.checked] : [];
+	$: onInput(checked);
 </script>
 
 <div use:field on:blur={onBlur}>
 	<FormField>
-		<CheckBox bind:group={prop.checked} value={prop.value} />
+		<CheckBox bind:group={checked} value={prop.value} />
 		<span slot="label">{prop.value}</span>
 	</FormField>
 	<br />
