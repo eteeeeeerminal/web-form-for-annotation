@@ -1,19 +1,26 @@
 <script lang="ts">
-	import { pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
+	import { datasetId, pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import VTuberForm from './components/VTuberForm.svelte';
 	import { vtuberFormInitValues } from './init-values';
+	import { getUserData } from '$lib/dataset/user-data';
+
+	const { annotationLog, annotationCounts } = getUserData(datasetId);
 
 	let submitted = false;
 	let initValues = vtuberFormInitValues;
 
-	let vtuberId = pickVtuber();
+	let vtuberId = pickVtuber($annotationLog, $annotationCounts);
 	$: if (submitted) {
-		vtuberId = pickVtuber();
+		vtuberId = pickVtuber($annotationLog, $annotationCounts);
 		submitted = false;
 		initValues = vtuberFormInitValues;
 	}
 </script>
 
-<VTuberForm {vtuberId} bind:submitted {initValues} />
+{#if vtuberId}
+	<VTuberForm {vtuberId} bind:submitted {initValues} />
 
-不具合報告フォーム
+	不具合報告フォーム
+{:else}
+	回答可能なものはありません。ご協力ありがとうございます。
+{/if}
