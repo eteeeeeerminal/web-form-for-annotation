@@ -12,7 +12,6 @@
 	import TextField from '$lib/form/TextField.svelte';
 	import Select from '$lib/form/Select.svelte';
 	import NPoint from '$lib/form/NPoint.svelte';
-	import TextArea from '$lib/form/TextArea.svelte';
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId, loadVtuberData } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import { vtuberFormInitValues } from '../init-values';
@@ -119,8 +118,11 @@
 	<SubmitButton
 		on:click={() => {
 			if ($isValid) {
-				//submit(vtuberId, vtuberVideo.title, $data);
+				submit(vtuberId, vtuberVideo.title, $data);
 				submitted = true;
+				if (window != null) {
+					window.scroll({ top: 0, behavior: 'smooth' });
+				}
 			}
 		}}
 	/>

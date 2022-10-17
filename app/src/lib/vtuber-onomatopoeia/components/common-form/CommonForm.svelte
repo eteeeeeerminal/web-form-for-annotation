@@ -76,6 +76,9 @@
 				if ($isValid) {
 					submit(commonFormKey, formName, $data);
 					submitted = true;
+					if (window != null) {
+						window.scroll({ top: 0, behavior: 'smooth' });
+					}
 				}
 			}}
 		/>
