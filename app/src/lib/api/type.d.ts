@@ -17,3 +17,7 @@ interface AnnotationLog {
   uid: string;
   log: AnnotationLogData;
 }
+
+interface DBData {
+  [key: string]: unknown
+}

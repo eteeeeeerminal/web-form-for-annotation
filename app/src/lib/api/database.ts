@@ -114,7 +114,7 @@ export const getAnnotation = async (datasetId: string, uid: string, dataId: stri
   const docRef = doc(database, datasetId, "users", uid, dataId)
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    return docSnap.data();
+    return docSnap.data() as DBData;
   }
   return null;
 }
