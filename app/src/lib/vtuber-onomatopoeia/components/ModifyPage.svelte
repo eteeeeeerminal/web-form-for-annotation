@@ -4,6 +4,7 @@
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import VTuberForm from './vtuber-form/components/VTuberForm.svelte';
+	import CommonForm from './common-form/CommonForm.svelte';
 
 	const { annotationLog, getFormValue } = getUserData(datasetId);
 
@@ -37,7 +38,7 @@
 		{/each}
 	{/if}
 {:else if selectedDataId === 'common'}
-	hoge
+	<CommonForm bind:submitted {initValues} />
 {:else}
 	<VTuberForm vtuberId={selectedDataId} bind:submitted {initValues} />
 {/if}

@@ -19,7 +19,8 @@
 	const commonFormKey = 'common';
 	const formName = '共通フォーム';
 
-	export let submitted: boolean;
+	export let submitted: boolean = false;
+	export let initValues: DBData | undefined;
 
 	yup.setLocale({
 		mixed: {
@@ -38,20 +39,19 @@
 	});
 
 	const { form, data, isValid } = createForm({
+		initialValues: initValues,
 		onSubmit: (values) => {},
 		extend: [validator({ schema }), reporter]
 	});
 
 	let pageNum = 0;
 	const pages = [ConsentForm, PaymentForm, AnnotatorForm];
-	// const pageProps = [];
-	$: submitted = Boolean($annotationLog?.log.get(commonFormKey));
 </script>
 
 <form use:form>
 	{#each pages as page, i}
 		<div class={i != pageNum ? 'hidden' : ''}>
-			<svelte:component this={page} />
+			<svelte:component this={page} {initValues} />
 		</div>
 	{/each}
 	{#if pageNum > 0}
@@ -75,6 +75,7 @@
 			on:click={() => {
 				if ($isValid) {
 					submit(commonFormKey, formName, $data);
+					submitted = true;
 				}
 			}}
 		/>
