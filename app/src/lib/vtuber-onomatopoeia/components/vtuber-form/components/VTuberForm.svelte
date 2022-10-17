@@ -37,7 +37,7 @@
 	});
 
 	$: vtuberVideo = loadVtuberData(vtuberId);
-	let selectProp: SelectProp = {
+	const selectProp: SelectProp = {
 		name: 'alreadyKnow',
 		values: [
 			'聞いたこともない',
