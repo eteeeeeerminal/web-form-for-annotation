@@ -22,7 +22,7 @@ interface RadioButtonProp {
 interface SelectProp {
   name: string;
   values: string[];
-  initStat: string | undefined;
+  selected: string | undefined;
 }
 
 interface NPointProp {
@@ -30,5 +30,5 @@ interface NPointProp {
   n: number;
   leftWord: string;
   rightWord: string;
-  initStat: string | undefined;
+  selected: string | undefined;
 }

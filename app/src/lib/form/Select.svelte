@@ -3,17 +3,18 @@
 	import Select, { Option } from '@smui/select';
 
 	export let prop: SelectProp;
-
-	let selected = prop.initStat ? prop.initStat : '';
+	if (prop.selected == null) {
+		prop.selected = '';
+	}
 
 	const { field, onInput } = createField(prop.name);
 
-	$: onInput(selected);
+	$: onInput(prop.selected);
 </script>
 
 <div use:field>
 	<Select
-		bind:value={selected}
+		bind:value={prop.selected}
 		label="選んでください"
 		variant="standard"
 		style="margin: 0.6rem 1rem 0.6rem;"

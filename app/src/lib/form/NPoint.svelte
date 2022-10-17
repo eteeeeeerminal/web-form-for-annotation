@@ -5,12 +5,11 @@
 
 	export let prop: NPointProp;
 
-	let selected = prop.initStat ? prop.initStat : '';
 	const values = Array.from(new Array(prop.n), (_, i) => String(i + 1));
 
 	const { field, onInput } = createField(prop.name);
 
-	$: onInput(selected);
+	$: onInput(prop.selected);
 </script>
 
 <div use:field class="center">
@@ -21,7 +20,7 @@
 				<FormField>
 					<div class="scale-point">
 						<div class="number">{value}</div>
-						<Radio style="padding: 10px 0;" bind:group={selected} {value} />
+						<Radio style="padding: 10px 0;" bind:group={prop.selected} {value} />
 					</div>
 				</FormField>
 			{/each}
