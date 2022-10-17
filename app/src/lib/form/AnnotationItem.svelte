@@ -2,7 +2,7 @@
 	import Card from '@smui/card';
 </script>
 
-<Card style="margin: 0.2rem 0rem;">
+<Card style="margin: 0.8rem 0rem;">
 	<div class="annotation-item">
 		<slot />
 	</div>
