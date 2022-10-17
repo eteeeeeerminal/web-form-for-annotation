@@ -1,4 +1,15 @@
+const constructStringArray= (l: number) => (new Array(l).map(() => ""))
+
 export const commonFormInitValues = {
-  consentCheck: new Array(9).map(() => ""),
-  consentRadio: ""
+  consentCheck: constructStringArray(9),
+  consentRadio: "",
+  name: "",
+  email: "",
+  watchFrequency: "",
+  manyVWatch: "",
+  watchPeriod: "",
+  sex: "",
+  age: "",
+  platformCheck: constructStringArray(7),
+  snsCheck: constructStringArray(6)
 }

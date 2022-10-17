@@ -18,7 +18,7 @@
 		{:else if isSubmittedCommon}
 			<VTuberFormPage />
 		{:else}
-			<CommonForm bind:submitted={isSubmittedCommon} initValues={undefined} />
+			<CommonForm bind:submitted={isSubmittedCommon} />
 		{/if}
 	</div>
 </div>

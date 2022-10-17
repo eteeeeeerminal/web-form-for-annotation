@@ -13,14 +13,14 @@
 
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
+	import { commonFormInitValues } from './components/init-values';
 
-	// 描画タイミングの問題で initStat は上から入れます。ローディング表示も上から
-	const { annotationLog, submit } = getUserData(datasetId);
+	const { submit } = getUserData(datasetId);
 	const commonFormKey = 'common';
 	const formName = '共通フォーム';
 
 	export let submitted: boolean = false;
-	export let initValues: DBData | undefined;
+	export let initValues: DBData = commonFormInitValues;
 
 	yup.setLocale({
 		mixed: {
