@@ -5,12 +5,12 @@
 
 	export let prop: RadioButtonProp;
 
-	let selected: string = prop.initStat ? prop.initStat : '';
+	let selected = prop.initStat ? prop.initStat : '';
 
 	const { field, onInput } = createField(prop.name);
 
 	// 更新時に onInput を呼びたい
-	$: hoge = onInput(selected);
+	$: onInput(selected);
 </script>
 
 <div use:field>
@@ -19,7 +19,7 @@
 			<Radio bind:group={selected} {value} />
 			<span slot="label">{value}</span>
 			{#if prop.doNewLine}
-				<br/>
+				<br />
 			{/if}
 		</FormField>
 	{/each}

@@ -7,9 +7,10 @@
 
 	const { field, onInput, onBlur } = createField(prop.name);
 
-	let checked: string[] = prop.initStat ? [prop.initStat] : [];
+	let checked: string[] = prop.initStat ? prop.initStat : [];
 
-	$: hoge = onInput(checked);
+	// 更新時に onInput を呼びたい
+	$: onInput(checked);
 </script>
 
 <div use:field on:blur={onBlur}>
