@@ -1,3 +1,11 @@
+interface YouTubeVideoProp {
+  videoId: string,
+  title: string,
+  uploaderName: string;
+  youtubeId: string;
+  description: string;
+}
+
 interface CheckboxProp {
   name: string,
   value: string,
