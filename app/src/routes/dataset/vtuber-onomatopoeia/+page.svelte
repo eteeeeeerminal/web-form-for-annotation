@@ -7,7 +7,7 @@
 
 	const { annotationLog } = getUserData(datasetId);
 
-	let isSubmittedCommon = false;
+	$: isSubmittedCommon = Boolean($annotationLog?.log.get('common'));
 </script>
 
 <div class="center">
@@ -18,8 +18,7 @@
 		{:else if isSubmittedCommon}
 			<VTuberFormPage />
 		{:else}
-			<CommonForm bind:submitted={isSubmittedCommon} />
-			// 戻るボタン置く
+			<CommonForm bind:submitted={isSubmittedCommon} initValues={undefined} />
 		{/if}
 	</div>
 </div>
