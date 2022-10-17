@@ -19,7 +19,7 @@
 
 	export let vtuberId: string;
 	export let submitted: boolean;
-	export let initValues: { [key: string]: string } = vtuberFormInitValues;
+	export let initValues: DBData = vtuberFormInitValues;
 
 	const { submit } = getUserData(datasetId);
 
@@ -46,11 +46,11 @@
 			'何度か動画を視聴した',
 			'定期的に視聴している'
 		],
-		selected: initValues.alreadyKnow
+		selected: String(initValues.alreadyKnow)
 	};
 
 	$: {
-		selectProp.selected = initValues.alreadyKnow;
+		selectProp.selected = String(initValues.alreadyKnow);
 	}
 </script>
 
@@ -68,7 +68,7 @@
 	>
 		<TextField
 			name="firstOnomatopoeia"
-			value={initValues.firstOnomatopoeia}
+			value={String(initValues.firstOnomatopoeia)}
 			placeholder="オノマトペ1語で回答"
 		/>
 	</AnnotationFormItem>
@@ -78,7 +78,7 @@
 	>
 		<TextField
 			name="otherOnomatopoeia"
-			value={initValues.otherOnomatopoeia}
+			value={String(initValues.otherOnomatopoeia)}
 			placeholder="オノマトペ数語で回答"
 		/>
 	</AnnotationFormItem>
@@ -88,7 +88,7 @@
 	>
 		<TextField
 			name="otherImpressions"
-			value={initValues.otherImpressions}
+			value={String(initValues.otherImpressions)}
 			placeholder="数語で回答"
 		/>
 	</AnnotationFormItem>
@@ -109,7 +109,7 @@
 					n: 7,
 					leftWord: '全く違うと思う',
 					rightWord: '強くそう思う',
-					selected: initValues[item.name]
+					selected: String(initValues[item.name])
 				}}
 			/>
 		</AnnotationFormItem>
