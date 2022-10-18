@@ -23,12 +23,25 @@
 
 	const { submit } = getUserData(datasetId);
 
+	// 関数直書きじゃなくて setLocale の中に書きたい
 	yup.setLocale({
 		mixed: {
 			default: 'Not valid'
 		}
 	});
-	const schema = yup.object({});
+	const requiredText = '必須項目です。';
+	const TIPIJSchema = Object.fromEntries(
+		TIPIJ.map((value) => {
+			return [value.name, yup.string().required(requiredText)];
+		})
+	);
+	const schema = yup.object({
+		alreadyKnow: yup.string().required(requiredText),
+		firstOnomatopoeia: yup.string().required(requiredText),
+		otherOnomatopoeia: yup.string().notRequired(),
+		otherImpressions: yup.string().notRequired(),
+		...TIPIJSchema
+	});
 
 	const { form, data, isValid } = createForm({
 		initialValues: initValues,
