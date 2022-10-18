@@ -4,7 +4,7 @@
 </script>
 
 <div class="pagination">
-	<SecondaryButton on:click label={name} />
+	<SecondaryButton on:click label={name} type="submit" />
 </div>
 
 <style lang="scss">

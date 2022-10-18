@@ -3,7 +3,7 @@
 </script>
 
 <div class="submit">
-	<PrimaryButton label="送信" on:click />
+	<PrimaryButton label="送信" on:click type="submit" />
 </div>
 
 <style lang="scss">

@@ -3,9 +3,10 @@
 
 	export let label: string | null;
 	export let href: string | undefined = undefined;
+	export let type = 'button';
 </script>
 
-<Button on:click {href} color="secondary" type="button" style="background: whitesmoke">
+<Button on:click {href} color="secondary" {type} style="background: whitesmoke">
 	<div class="label">{label}</div>
 </Button>
 
