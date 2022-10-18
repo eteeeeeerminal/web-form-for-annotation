@@ -9,14 +9,20 @@ interface YouTubeVideoProp {
 interface CheckboxProp {
   name: string,
   value: string,
-  checked: string | undefined
+  checked?: string
+}
+
+interface CheckboxListProp {
+  name: string,
+  values: string[],
+  checked: string[]
 }
 
 interface RadioButtonProp {
   name: string;
   values: string[];
-  selected: string | undefined;
-  doNewLine: boolean;
+  selected?: string;
+  doNewLine?: boolean;
 }
 
 interface SelectProp {

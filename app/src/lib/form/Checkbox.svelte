@@ -5,13 +5,13 @@
 
 	export let prop: CheckboxProp;
 
-	const { field, onInput, onBlur } = createField(prop.name);
+	const { field, onInput } = createField(prop.name);
 
 	let checked = prop.checked ? [prop.checked] : [];
 	$: onInput(checked);
 </script>
 
-<div use:field on:blur={onBlur}>
+<div use:field role="checkbox" aria-checked={Boolean(checked)}>
 	<FormField>
 		<CheckBox bind:group={checked} value={prop.value} />
 		<span slot="label">{prop.value}</span>
