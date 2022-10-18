@@ -2,17 +2,18 @@
 	import { createField } from 'felte';
 	import Radio from '@smui/radio';
 	import FormField from '@smui/form-field';
+	import ValidationMessage from './ValidationMessage.svelte';
 
 	export let prop: NPointProp;
 
 	const values = Array.from(new Array(prop.n), (_, i) => String(i + 1));
 
-	const { field, onInput } = createField(prop.name);
+	const { field, onInput, onBlur } = createField(prop.name);
 
 	$: onInput(prop.selected);
 </script>
 
-<div use:field class="center">
+<div use:field on:blur={onBlur} role="radio" aria-checked="true" class="center" tabindex="0">
 	<div class="left-word">{prop.leftWord}</div>
 	<div class="scale-outer">
 		<div class="scale-inner">
@@ -28,6 +29,7 @@
 	</div>
 	<div class="right-word">{prop.rightWord}</div>
 </div>
+<ValidationMessage name={prop.name} />
 
 <style lang="scss">
 	.center {
