@@ -37,6 +37,7 @@
 		return v.length >= min && v.length <= max;
 	};
 
+	const requiredText = '必須項目です。';
 	const schema = yup.object({
 		consentCheck: yup
 			.array()
@@ -48,15 +49,19 @@
 			.string()
 			.equals(['同意する'], '同意した方のみ実験に参加できます。')
 			.required(),
-		name: yup.string().required(),
-		email: yup.string().email().required(),
-		watchFrequency: yup.string().required(),
-		manyVWatch: yup.string().required(),
-		watchPeriod: yup.string().required(),
-		sex: yup.string().required(),
-		age: yup.string().required(),
-		platformCheck: yup.array().test((v) => checkCheckBoxLength(v, 1, 7)),
-		snsCheck: yup.array().test((v) => checkCheckBoxLength(v, 1, 6))
+		name: yup.string().required(requiredText),
+		email: yup.string().email('有効なアドレスを入力してください。').required(requiredText),
+		watchFrequency: yup.string().required(requiredText),
+		manyVWatch: yup.string().required(requiredText),
+		watchPeriod: yup.string().required(requiredText),
+		sex: yup.string().required(requiredText),
+		age: yup.string().required(requiredText),
+		platformCheck: yup
+			.array()
+			.test('適切な長さか', '1つ以上チェックしてください。', (v) => checkCheckBoxLength(v, 1, 7)),
+		snsCheck: yup
+			.array()
+			.test('適切な長さか', '1つ以上チェックしてください。', (v) => checkCheckBoxLength(v, 1, 6))
 	});
 
 	const { form, data, isValid } = createForm({
