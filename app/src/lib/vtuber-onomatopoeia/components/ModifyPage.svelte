@@ -7,7 +7,7 @@
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import VTuberForm from './vtuber-form/components/VTuberForm.svelte';
 	import CommonForm from './common-form/CommonForm.svelte';
-	import DeletePopup from './DeletePopup.svelte';
+	import DeletePopup from '$lib/popup/DeletePopup.svelte';
 
 	const { annotationLog, getFormValue, deleteFormValue } = getUserData(datasetId);
 
