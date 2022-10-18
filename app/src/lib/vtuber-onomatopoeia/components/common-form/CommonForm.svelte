@@ -25,17 +25,38 @@
 	yup.setLocale({
 		mixed: {
 			default: 'Not valid'
+		},
+		string: {
+			email: 'Must be a valid email'
 		}
 	});
+
+	const checkCheckBoxLength = (v: any[] | undefined, min: number, max: number) => {
+		if (v == null) return false;
+		v = v.filter((v) => Boolean(v));
+		return v.length >= min && v.length <= max;
+	};
+
 	const schema = yup.object({
 		consentCheck: yup
 			.array()
-			.test((v) => {
-				v = v?.filter((v) => Boolean(v));
-				return v?.length === checkbox.props.length;
-			})
+			.test('適切な長さか', '全てに同意してください', (v) =>
+				checkCheckBoxLength(v, checkbox.props.length, checkbox.props.length)
+			)
 			.required(),
-		consentRadio: yup.string().equals(['同意する'], '同意した方のみ実験に参加できます。').required()
+		consentRadio: yup
+			.string()
+			.equals(['同意する'], '同意した方のみ実験に参加できます。')
+			.required(),
+		name: yup.string().required(),
+		email: yup.string().email().required(),
+		watchFrequency: yup.string().required(),
+		manyVWatch: yup.string().required(),
+		watchPeriod: yup.string().required(),
+		sex: yup.string().required(),
+		age: yup.string().required(),
+		platformCheck: yup.array().test((v) => checkCheckBoxLength(v, 1, 7)),
+		snsCheck: yup.array().test((v) => checkCheckBoxLength(v, 1, 6))
 	});
 
 	const { form, data, isValid } = createForm({
@@ -66,7 +87,7 @@
 		<PaginationButton
 			name="次へ"
 			on:click={() => {
-				if ($isValid) pageNum++;
+				pageNum++;
 			}}
 		/>
 	{/if}
@@ -88,7 +109,7 @@
 </form>
 
 <pre>
- {JSON.stringify($data, null, 2)}
+{JSON.stringify($data, null, 2)}
 </pre>
 
 <style lang="scss">
