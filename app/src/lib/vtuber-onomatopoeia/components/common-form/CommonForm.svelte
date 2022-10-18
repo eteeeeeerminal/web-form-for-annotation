@@ -79,6 +79,8 @@
 					if (window != null) {
 						window.scroll({ top: 0, behavior: 'smooth' });
 					}
+				} else {
+					pageNum = 0;
 				}
 			}}
 		/>
