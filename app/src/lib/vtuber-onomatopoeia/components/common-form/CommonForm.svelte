@@ -9,7 +9,7 @@
 	import PaginationButton from '$lib/button/PaginationButton.svelte';
 	import PaymentForm from './components/PaymentForm.svelte';
 	import AnnotatorForm from './components/AnnotatorForm.svelte';
-	import { checkbox } from './components/checkbox-info';
+	import { checkboxValues } from './components/consent-checkbox-info';
 
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
@@ -40,8 +40,8 @@
 	const schema = yup.object({
 		consentCheck: yup
 			.array()
-			.test('適切な長さか', '全てに同意してください', (v) =>
-				checkCheckBoxLength(v, checkbox.props.length, checkbox.props.length)
+			.test('適切な長さか', 'すべての項目をご理解いただくようお願いします。', (v) =>
+				checkCheckBoxLength(v, checkboxValues.length, checkboxValues.length)
 			)
 			.required(),
 		consentRadio: yup

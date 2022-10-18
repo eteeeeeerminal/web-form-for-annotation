@@ -1,4 +1,4 @@
-import { itemsToCheckboxProps } from "$lib/form/form";
+import { constructCheckboxListProp } from "$lib/form/form";
 
 export const watchFrequencyQ = "VTuberをどのくらいの頻度で視聴しますか?";
 export const watchFrequency: SelectProp = {
@@ -75,9 +75,9 @@ const platformCheckValues = [
   "動画はほとんど視聴しない"
 ];
 
-export const platformCheck = {
+export const platformCheck: FormPropWithQuestion<CheckboxListProp> = {
   question: "この中で1週間に1度以上使うものをチェックしてください。",
-  props: itemsToCheckboxProps('platformCheck', platformCheckValues)
+  prop: constructCheckboxListProp('platformCheck', platformCheckValues)
 };
 
 const snsCheckValues = [
@@ -89,7 +89,7 @@ const snsCheckValues = [
   "SNSは殆ど使わない"
 ];
 
-export const snsCheck = {
+export const snsCheck: FormPropWithQuestion<CheckboxListProp> = {
   question: "この中で1週間に1度以上使うものをチェックしてください。",
-  props: itemsToCheckboxProps('snsCheck', snsCheckValues)
+  prop: constructCheckboxListProp('snsCheck', snsCheckValues)
 };

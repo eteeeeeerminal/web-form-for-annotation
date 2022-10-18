@@ -38,3 +38,8 @@ interface NPointProp {
   rightWord: string;
   selected: string | undefined;
 }
+
+interface FormPropWithQuestion<T = CheckboxListProp| RadioButtonProp | SelectProp | NPointProp> {
+  question: string;
+  prop: T;
+}

@@ -3,7 +3,7 @@
 	import Text from '$lib/form/Text.svelte';
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
 	import Select from '$lib/form/Select.svelte';
-	import Checkbox from '$lib/form/Checkbox.svelte';
+	import CheckboxList from '$lib/form/CheckboxList.svelte';
 	import {
 		age,
 		manyVWatch,
@@ -17,6 +17,7 @@
 		watchPeriodQ
 	} from './anotator-form';
 	import { commonFormInitValues } from './init-values';
+	import Checkbox from '@smui/checkbox/src/Checkbox.svelte';
 
 	export let initValues: DBData = commonFormInitValues;
 
@@ -26,14 +27,14 @@
 		watchPeriod.selected = String(initValues.watchPeriod);
 		sex.selected = String(initValues.sex);
 		age.selected = String(initValues.age);
-		platformCheck.props.forEach((value, i) => {
+		platformCheck.prop.values.forEach((_, i) => {
 			if (Array.isArray(initValues.platformCheck)) {
-				value.checked = initValues.platformCheck[i];
+				platformCheck.prop.checked[i] = initValues.platformCheck[i];
 			}
 		});
-		snsCheck.props.forEach((value, i) => {
+		snsCheck.prop.values.forEach((_, i) => {
 			if (Array.isArray(initValues.snsCheck)) {
-				value.checked = initValues.snsCheck[i];
+				snsCheck.prop.checked[i] = initValues.snsCheck[i];
 			}
 		});
 	}
@@ -75,13 +76,9 @@
 </AnnotationFormItem>
 
 <AnnotationFormItem question={platformCheck.question}>
-	{#each platformCheck.props as prop}
-		<Checkbox {prop} />
-	{/each}
+	<CheckboxList prop={platformCheck.prop} />
 </AnnotationFormItem>
 
 <AnnotationFormItem question={snsCheck.question}>
-	{#each snsCheck.props as prop}
-		<Checkbox {prop} />
-	{/each}
+	<CheckboxList prop={snsCheck.prop} />
 </AnnotationFormItem>

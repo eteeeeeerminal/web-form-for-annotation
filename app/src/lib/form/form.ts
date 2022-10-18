@@ -1,9 +1,8 @@
-export const itemsToCheckboxProps = (namePrefix: string, values: string[]) => {
-  if (values.length == 1) {
-    return [{ name: namePrefix, value: values[0] } as CheckboxProp];
+export const constructCheckboxListProp = (name: string, values: string[]) => {
+  const ret :CheckboxListProp = {
+    name,
+    values,
+    checked: [...Array(values.length).map(() => "")]
   }
-
-  return values.map((v, i) => {
-    return {name: namePrefix+"."+i, value: v} as CheckboxProp
-  })
+  return ret;
 };

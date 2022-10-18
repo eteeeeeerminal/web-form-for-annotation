@@ -1,26 +1,33 @@
 <script lang="ts">
 	import SectionTitle from '$lib/form/SectionTitle.svelte';
 	import Text from '$lib/form/Text.svelte';
-	import Checkbox from '$lib/form/Checkbox.svelte';
 	import Radio from '$lib/form/Radio.svelte';
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
-	import { checkbox } from './checkbox-info';
+	import { checkboxValues } from './consent-checkbox-info';
 	import ConcentFormText from './ConcentFormText.svelte';
 	import { commonFormInitValues } from './init-values';
+	import CheckboxList from '$lib/form/CheckboxList.svelte';
+	import { constructStringArray } from './init-values';
 
 	export let initValues: DBData = commonFormInitValues;
 
-	let consentRadio = {
+	let consentRadio: RadioButtonProp = {
 		name: 'consentRadio',
 		values: ['同意しない', '同意する']
-	} as RadioButtonProp;
+	};
+
+	let consentCheck: CheckboxListProp = {
+		name: 'consentCheck',
+		values: checkboxValues,
+		checked: constructStringArray(checkboxValues.length)
+	};
 
 	$: {
-		checkbox.props.forEach((value, i) => {
-			if (Array.isArray(initValues.consentCheck)) {
-				value.checked = initValues.consentCheck[i];
-			}
-		});
+		if (Array.isArray(initValues.consentCheck)) {
+			initValues.consentCheck.forEach((value, i) => {
+				consentCheck.checked[i] = value;
+			});
+		}
 		consentRadio.selected = String(initValues.consentRadio);
 	}
 </script>
@@ -36,10 +43,10 @@
 	</a>
 </Text>
 
-<AnnotationFormItem question={checkbox.question}>
-	{#each checkbox.props as prop}
-		<Checkbox {prop} />
-	{/each}
+<AnnotationFormItem
+	question="上述の研究内容について、目的・方法・予期される問題等について十分な説明を受け、以下の項目を理解しました。"
+>
+	<CheckboxList prop={consentCheck} />
 </AnnotationFormItem>
 
 <AnnotationFormItem>

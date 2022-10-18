@@ -1,6 +1,4 @@
-import { itemsToCheckboxProps } from '$lib/form/form';
-
-const checkboxValues = [
+export const checkboxValues = [
   '研究の目的、方法そしてあらゆる危険性とそれに対する対応について。',
   '研究への協力は自由意志で行うものであり、協力しない場合でも不利益とならないこと。',
   '私は自らの自由意志でいつでも回答を中止することができること。',
@@ -11,8 +9,3 @@ const checkboxValues = [
   '回答内容は、その結果が誰のものであるかがわからないようにして、オープンアクセスのデータセットとして公開される可能性があること。',
   '万一不利益をこうむった場合に電気通信大学長に対して申し立てを行うことができること。'
 ];
-
-export const checkbox = {
-  question: '上述の研究内容について、目的・方法・予期される問題等について十分な説明を受け、以下の項目を理解しました。',
-  props: itemsToCheckboxProps('consentCheck', checkboxValues)
-};
