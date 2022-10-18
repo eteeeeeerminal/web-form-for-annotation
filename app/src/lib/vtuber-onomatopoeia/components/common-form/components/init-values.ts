@@ -1,4 +1,4 @@
-const constructStringArray= (l: number) => (new Array(l).map(() => ""))
+export const constructStringArray= (l: number) => ([...Array(l)].map(() => ""))
 
 export const commonFormInitValues = {
   consentCheck: constructStringArray(9),
