@@ -14,7 +14,7 @@
 	import NPoint from '$lib/form/NPoint.svelte';
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId, loadVtuberData } from '$lib/vtuber-onomatopoeia/dataset/database';
-	import { vtuberFormInitValues } from '../init-values';
+	import { vtuberFormInitValues } from './init-values';
 	import { TIPIJ } from './TIPIJ';
 
 	export let vtuberId: string;

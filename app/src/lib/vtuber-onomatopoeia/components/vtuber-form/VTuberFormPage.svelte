@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { datasetId, pickVtuber } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import VTuberForm from './components/VTuberForm.svelte';
-	import { vtuberFormInitValues } from './init-values';
+	import { vtuberFormInitValues } from './components/init-values';
 	import { getUserData } from '$lib/dataset/user-data';
 
 	const { annotationLog, annotationCounts } = getUserData(datasetId);
