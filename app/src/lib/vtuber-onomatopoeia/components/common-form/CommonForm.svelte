@@ -14,6 +14,7 @@
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import { commonFormInitValues } from './components/init-values';
+	import { checkCheckBoxLength } from '$lib/form/form';
 
 	const { submit } = getUserData(datasetId);
 	const commonFormKey = 'common';
@@ -22,6 +23,7 @@
 	export let submitted: boolean = false;
 	export let initValues: DBData = commonFormInitValues;
 
+	// メッセージを関数直書きじゃなくて, setLocale にしたい
 	yup.setLocale({
 		mixed: {
 			default: 'Not valid'
@@ -30,12 +32,6 @@
 			email: 'Must be a valid email'
 		}
 	});
-
-	const checkCheckBoxLength = (v: any[] | undefined, min: number, max: number) => {
-		if (v == null) return false;
-		v = v.filter((v) => Boolean(v));
-		return v.length >= min && v.length <= max;
-	};
 
 	const requiredText = '必須項目です。';
 	const schema = yup.object({
