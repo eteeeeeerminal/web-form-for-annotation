@@ -34,7 +34,8 @@
 
 {#if !modifyMode}
 	<h2>回答履歴</h2>
-	<p>ここに説明</p>
+	<p>回答の修正ができます。削除もできます。</p>
+	<p>最初に回答した同意書やアノテーターに関する質問は「共通フォーム」という名前で表示されます。</p>
 
 	{#if $annotationLog}
 		{#each [...$annotationLog.log] as log}
