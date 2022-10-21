@@ -22,7 +22,9 @@ export const pickVtuber = (annotationLog: AnnotationLog | null, annotationCounts
     // 回答数の少ない項目
     targetDataIds = [...annotationCounts].filter((value) => (value[1] === i)).map(value=>value[0]);
 
-    const yetNotAnsPool = targetDataIds.filter(id => !annotationLog.log.has(id));
+    const yetNotAnsPool = targetDataIds
+      .filter(id => !annotationLog.log.has(id))
+      .filter(id => !annotationLog.ngList.has(id));
     if (yetNotAnsPool.length < 1) {
       continue;
     }

@@ -11,11 +11,13 @@ type AnnotationLogData = Map<string, {displayName: string, timestamp: number}>;
 
 interface AnnotationLogDataDoc {
   annotationLogData: AnnotationLogData;
+  ngListData: AnnotationLogData;
 }
 
 interface AnnotationLog {
   uid: string;
   log: AnnotationLogData;
+  ngList: AnnotationLogData;
 }
 
 interface DBData {

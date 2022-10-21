@@ -16,6 +16,7 @@
 	import { datasetId, loadVtuberData } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import { vtuberFormInitValues } from './init-values';
 	import { TIPIJ } from './TIPIJ';
+	import SkipReportForm from './SkipReportForm.svelte';
 
 	export let vtuberId: string;
 	export let submitted: boolean;
@@ -70,6 +71,8 @@
 <Text>VTuber の自己紹介動画を閲覧して、感じたままを回答してください。</Text>
 
 <YouTubeVideo {...vtuberVideo} />
+
+<SkipReportForm bind:submitted displayName={vtuberVideo.title} dataId={vtuberId} />
 
 <form use:form>
 	<AnnotationFormItem question="このVTuberをすでに知っていましたか?">

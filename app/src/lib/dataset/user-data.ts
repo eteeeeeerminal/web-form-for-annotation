@@ -17,9 +17,9 @@ const createUserData = (datasetId: string) => {
 
       const log = await getAnnotationLog(datasetId, user.uid);
       if (log == null) {
-        annotationLog.set({ uid: user.uid, log: new Map() });
+        annotationLog.set({ uid: user.uid, log: new Map(), ngList: new Map() });
       } else {
-        annotationLog.set({ uid: user.uid, log: log })
+        annotationLog.set({ uid: user.uid, log: log.log, ngList: log.ngList })
       }
     } else {
       annotationCounts.set(null);
@@ -51,8 +51,29 @@ const createUserData = (datasetId: string) => {
         displayName,
         timestamp: Date.now()
       });
-      setAnnotationLog(datasetId, log.uid, log.log);
+      setAnnotationLog(datasetId, log.uid, log);
       log.log = sortedAnnotationLog(log.log);
+
+      return log;
+    })
+  }
+
+  const skip = (dataId: string, displayName: string, values: unknown) => {
+    annotationLog.update(log => {
+      if (log == null) throw new Error("Cannot pushLog when annotationLog is null");
+      if (log.log.has(dataId)) {
+        // 編集
+      } else {
+        // 新規回答
+      }
+
+      setAnnotation(datasetId, log.uid, dataId, values);
+      log.ngList.set(dataId, {
+        displayName,
+        timestamp: Date.now()
+      });
+      setAnnotationLog(datasetId, log.uid, log);
+      // log.ngList = sortedAnnotationLog(log.ngList);
 
       return log;
     })
@@ -73,7 +94,7 @@ const createUserData = (datasetId: string) => {
     annotationLog.update(log => {
       if (log == null) throw new Error("Cannot pushLog when annotationLog is null");
       log.log.delete(dataId)
-      setAnnotationLog(datasetId, log.uid, log.log);
+      setAnnotationLog(datasetId, log.uid, log);
       deleteAnnotation(datasetId, log.uid, dataId);
       return log;
     })
@@ -90,6 +111,7 @@ const createUserData = (datasetId: string) => {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
     submit,
+    skip,
     getFormValue,
     deleteFormValue,
   }

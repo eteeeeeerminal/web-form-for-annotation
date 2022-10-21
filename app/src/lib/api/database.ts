@@ -1,9 +1,6 @@
 import { database } from "./firebase";
-import { deleteDoc, doc, getDoc, setDoc, type DocumentData, type WithFieldValue } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { datasetDataIds } from "$lib/dataset/datasets";
-
-// storeで実装でしょ 無理そうならsingletonしませう
-// ↑いやいうほど読み書き発生しないから不要かも。過剰
 
 const annotationProgressDocName = "annotation-progress";
 const annotationLogDocName = "annotation-log";
@@ -97,17 +94,23 @@ export const getAnnotationLog = async (datasetId: string, uid: string) => {
   const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    const { annotationLogData } = docSnap.data() as AnnotationLogDataDoc;
+    const annotationLogDataDoc = docSnap.data() as AnnotationLogDataDoc;
 
-    return sortedAnnotationLog(new Map(Object.entries(annotationLogData)));
+    return {
+      log: sortedAnnotationLog(new Map(Object.entries(annotationLogDataDoc.annotationLogData))),
+      ngList: new Map(Object.entries(annotationLogDataDoc.ngListData))
+    }
   }
 
   return null;
 }
 
-export const setAnnotationLog = async (datasetId: string, uid: string, annotationLog: AnnotationLogData) => {
+export const setAnnotationLog = async (datasetId: string, uid: string, annotationLog: AnnotationLog) => {
   const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
-  await setDoc(docRef, { annotationLogData: Object.fromEntries(annotationLog) });
+  await setDoc(docRef, {
+    annotationLogData: Object.fromEntries(annotationLog.log),
+    ngListData: Object.fromEntries(annotationLog.ngList)
+  });
 }
 
 export const getAnnotation = async (datasetId: string, uid: string, dataId: string) => {
