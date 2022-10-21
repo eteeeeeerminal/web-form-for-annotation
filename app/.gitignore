@@ -6,3 +6,6 @@ node_modules
 .env
 .env.*
 !.env.example
+*.log
+firebase-export*
+static/smui.css
