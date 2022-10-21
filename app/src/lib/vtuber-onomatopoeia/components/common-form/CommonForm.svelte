@@ -81,6 +81,9 @@
 			name="戻る"
 			on:click={() => {
 				pageNum--;
+				if (window != null) {
+					window.scroll({ top: 0, behavior: 'smooth' });
+				}
 			}}
 		/>
 	{/if}
@@ -89,6 +92,9 @@
 			name="次へ"
 			on:click={() => {
 				pageNum++;
+				if (window != null) {
+					window.scroll({ top: 0, behavior: 'smooth' });
+				}
 			}}
 		/>
 	{/if}
