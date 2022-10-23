@@ -76,7 +76,7 @@ const platformCheckValues = [
 ];
 
 export const platformCheck: FormPropWithQuestion<CheckboxListProp> = {
-  question: "この中で1週間に1度以上使うものをチェックしてください。",
+  question: "この中で1週間に1度以上見るものをチェックしてください。",
   prop: constructCheckboxListProp('platformCheck', platformCheckValues)
 };
 
@@ -90,6 +90,6 @@ const snsCheckValues = [
 ];
 
 export const snsCheck: FormPropWithQuestion<CheckboxListProp> = {
-  question: "この中で1週間に1度以上使うものをチェックしてください。",
+  question: "この中で1週間に1度以上見るものをチェックしてください。",
   prop: constructCheckboxListProp('snsCheck', snsCheckValues)
 };
