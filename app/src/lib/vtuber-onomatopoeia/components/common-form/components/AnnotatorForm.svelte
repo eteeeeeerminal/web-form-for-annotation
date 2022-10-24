@@ -15,7 +15,7 @@
 		watchFrequencyQ,
 		watchPeriod,
 		watchPeriodQ
-	} from './anotator-form';
+	} from './annotator-form';
 	import { commonFormInitValues } from './init-values';
 	import Checkbox from '@smui/checkbox/src/Checkbox.svelte';
 
