@@ -1,6 +1,6 @@
 import { database } from "./firebase";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
-import { datasetDataIds } from "$lib/dataset/datasets";
+import { datasetDataIds } from "$lib/dataset/dataset-data-ids";
 
 const annotationProgressDocName = "annotation-progress";
 const annotationLogDocName = "annotation-log";

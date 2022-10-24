@@ -1,6 +1,8 @@
+import { datasetMetas } from "$lib/dataset/datasets";
 import { targetVtubers } from "./static-data";
 
 export const datasetId = "vtuber-onomatopoeia";
+export const datasetVersion = datasetMetas[datasetId].version;
 
 export const vtuberIds = Object.keys(targetVtubers);
 
