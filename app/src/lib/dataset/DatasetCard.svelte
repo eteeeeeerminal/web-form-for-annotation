@@ -2,7 +2,7 @@
 	import Card from '@smui/card';
 	import Button, { Label } from '@smui/button';
 	import { onMount } from 'svelte';
-	import { checkIsAdmin, updateDataset } from '$lib/api/database';
+	import { checkIsAdmin } from '$lib/api/database';
 	import { currentUser } from '$lib/api/auth';
 	import { getUserData } from '$lib/dataset/user-data';
 
@@ -15,6 +15,7 @@
 
 	const datasetUrl = '/dataset/' + datasetId;
 	const modifyUrl = datasetUrl + '/modify';
+	const adminUrl = datasetUrl + '/admin';
 	const { annotationLog, annotationCounts } = getUserData(datasetId);
 	let readyDataset = false;
 	let isAdmin = false;
@@ -60,14 +61,7 @@
 		<div class="last-modified">Updated at {lastModified.toLocaleString()}</div>
 	{/if}
 	{#if isAdmin}
-		<Button
-			on:click={async () => {
-				await updateDataset(datasetId);
-				location.reload();
-			}}
-		>
-			<Label>{readyDataset ? 'データセットを更新' : 'データセットを準備'}</Label>
-		</Button>
+		<Button href={adminUrl}><Label>管理者ページ</Label></Button>
 	{/if}
 </Card>
 
