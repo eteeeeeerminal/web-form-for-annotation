@@ -5,7 +5,7 @@
 	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 
-	const { annotationCounts } = getUserData(datasetId);
+	const { annotationCounts, fetch } = getUserData(datasetId);
 
 	const shapeCounts = (counts: AnnotationCounts | null) => {
 		if (counts == null) return null;
@@ -36,7 +36,7 @@
 			{/each}
 		{/if}
 	</p>
-	回答状況読み込みボタン
+	<PrimaryButton label="更新" on:click={fetch} />
 </AnnotationFormItem>
 
 <AnnotationFormItem>ngデータ一覧取得ボタン/ ngデータ一覧</AnnotationFormItem>

@@ -27,6 +27,20 @@ const createUserData = (datasetId: string) => {
     }
   })
 
+  const fetch = () => {
+    annotationLog.subscribe(async log => {
+      if (log == null) return;
+      annotationCounts.set(await getAnnotationCounts(datasetId));
+
+      const newerLog  = await getAnnotationLog(datasetId, log.uid);
+      if (newerLog  == null) {
+        annotationLog.set({ uid: log.uid, log: new Map(), ngList: new Map() });
+      } else {
+        annotationLog.set({ uid: log.uid, log: newerLog.log, ngList: newerLog.ngList })
+      }
+    })
+  }
+
   const submit = (dataId: string, displayName: string, values: unknown) => {
     annotationLog.update(log => {
       if (log == null) throw new Error("Cannot pushLog when annotationLog is null");
@@ -110,6 +124,7 @@ const createUserData = (datasetId: string) => {
   return {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
+    fetch,
     submit,
     skip,
     getFormValue,
