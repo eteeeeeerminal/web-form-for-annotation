@@ -74,7 +74,7 @@
 </script>
 
 <form use:form>
-	{#if screeningOk}
+	<div class={screeningOk ? '' : 'hidden'}>
 		{#each pages as page, i}
 			<div class={i != pageNum ? 'hidden' : ''}>
 				<svelte:component this={page} {initValues} />
@@ -95,14 +95,14 @@
 				}
 			}}
 		/>
-	{:else}
+	</div>
+	<div class={screeningOk ? 'hidden' : ''}>
 		<ScreeningForm
-			bind:screeningOk
 			screen={() => {
 				screeningOk = screen($data);
 			}}
 		/>
-	{/if}
+	</div>
 </form>
 
 <pre>

@@ -6,20 +6,20 @@
 	import PaginationButton from '$lib/button/PaginationButton.svelte';
 	import { watchFrequency, watchFrequencyQ } from './annotator-form';
 
-	export let screeningOk: boolean;
 	export let screen: () => void;
 
 	let submitted = false;
 </script>
 
-{#if submitted}
+<div class={submitted ? '' : 'hidden'}>
 	<Text>
 		<p>回答ありがとうございました。</p>
 		<p>
 			本実験の参加条件を満たしていないので実験にご参加いただけません。ご協力ありがとうございました。
 		</p>
 	</Text>
-{:else}
+</div>
+<div class={submitted ? 'hidden' : ''}>
 	<SectionTitle title="実験参加資格について" />
 	<Text>
 		<p>はじめに、本実験に参加できるかどうか確認します。</p>
@@ -40,4 +40,10 @@
 			}
 		}}
 	/>
-{/if}
+</div>
+
+<style lang="scss">
+	.hidden {
+		display: none;
+	}
+</style>
