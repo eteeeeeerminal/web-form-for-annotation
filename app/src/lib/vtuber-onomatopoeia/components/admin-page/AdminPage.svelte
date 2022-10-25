@@ -4,6 +4,7 @@
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
 	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
+	import Title from '$lib/form/Title.svelte';
 
 	const { annotationCounts, fetch } = getUserData(datasetId);
 
@@ -23,6 +24,8 @@
 	$: readyDataset = Boolean($annotationCounts);
 	$: counts = shapeCounts($annotationCounts);
 </script>
+
+<Title title="VTuberオノマトペアノテーションの管理者フォーム" />
 
 <AnnotationFormItem>
 	<h4>回答状況一覧</h4>
