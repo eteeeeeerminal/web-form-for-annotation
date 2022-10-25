@@ -136,9 +136,9 @@
 			if ($isValid) {
 				submit(vtuberId, vtuberVideo.title, $data);
 				submitted = true;
-				if (window != null) {
-					window.scroll({ top: 0, behavior: 'smooth' });
-				}
+			}
+			if (window != null) {
+				window.scroll({ top: 0, behavior: 'smooth' });
 			}
 		}}
 	/>
