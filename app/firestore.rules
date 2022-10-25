@@ -12,6 +12,10 @@ service cloud.firestore {
         allow read: if isAdmin() && isDataset(datasetId);
         allow create, update: if isAdmin() && isDataset(datasetId);
       }
+      match /dataset-status {
+        allow read: if isAdmin();
+        allow write: if isAdmin();
+      }
 
       match /users/{userId}/{document=**} {
         allow read: if isAdmin() && isDataset(datasetId);
@@ -20,12 +24,16 @@ service cloud.firestore {
       // normal user
       match /annotation-progress {
         allow get: if request.auth != null && isDataset(datasetId);
-        allow update: if request.auth != null && isDataset(datasetId);
+        allow update: if request.auth != null && isDataset(datasetId) && isOpen(datasetId);
+      }
+
+      match /dataset-status {
+        allow read: if request.auth;
       }
 
       match /users/{userId}/{document=**} {
         allow read: if isUser(userId) && isDataset(datasetId);
-        allow write: if isUser(userId) && isDataset(datasetId);
+        allow write: if isUser(userId) && isDataset(datasetId) && isOpen(datasetId);
       }
     }
 
@@ -39,6 +47,11 @@ service cloud.firestore {
 
     function isAdmin() {
       return get(/databases/$(database)/documents/admin/$(request.auth.uid)).data.isAdmin;
+    }
+
+    // 実験実施中かどうか
+    function isOpen(datasetId) {
+      return get(/databases/$(database)/documents/$(datasetId)/dataset-status).data.isOpen;
     }
   }
 }

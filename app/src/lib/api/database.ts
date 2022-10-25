@@ -4,6 +4,7 @@ import { datasetDataIds } from "$lib/dataset/dataset-data-ids";
 
 const annotationProgressDocName = "annotation-progress";
 const annotationLogDocName = "annotation-log";
+const datasetStatusDocName = "dataset-status";
 
 // 昇順
 export const sortedMap = (map: Map<string, number>, isAsc = true) => {
@@ -52,6 +53,22 @@ export const updateDataset = async (datasetId: string) => {
   }
 
   await setDoc(docRef, { annotationCounts: Object.fromEntries(docData) });
+}
+
+export const setDatasetStatus = async (datasetId: string, datasetStatus: DatasetStatus) => {
+  const docRef = doc(database, datasetId, datasetStatusDocName);
+  await setDoc(docRef, datasetStatus);
+}
+
+export const getDataSetStatus = async (datasetId: string) => {
+  const docRef = doc(database, datasetId, datasetStatusDocName);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data() as DatasetStatus;
+  }
+
+  return null;
 }
 
 export const existsAnnotationCounts = async (datasetId: string) => {

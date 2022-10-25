@@ -1,3 +1,7 @@
+interface DatasetStatus {
+  isOpen: boolean;
+}
+
 // firestore の map は key でソートするみたいなので頑張る
 type AnnotationCounts = Map<string, number>;
 

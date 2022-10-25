@@ -4,12 +4,13 @@
 import { writable, type Readable } from 'svelte/store';
 
 import { currentUser } from '$lib/api/auth';
-import { deleteAnnotation, getAnnotation, getAnnotationCounts, getAnnotationLog, setAnnotation, setAnnotationCounts, setAnnotationLog, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
+import { deleteAnnotation, getAnnotation, getAnnotationCounts, getAnnotationLog, getDataSetStatus, setAnnotation, setAnnotationCounts, setAnnotationLog, setDatasetStatus, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
 import { datasets } from './datasets';
 
 const createUserData = (datasetId: string) => {
   const annotationLog = writable<AnnotationLog | null>(null);
   const annotationCounts = writable<AnnotationCounts | null>(null);
+  const datasetStatus = writable<DatasetStatus | null>(null);
 
   currentUser.subscribe(async user => {
     if (user) {
@@ -21,9 +22,17 @@ const createUserData = (datasetId: string) => {
       } else {
         annotationLog.set({ uid: user.uid, log: log.log, ngList: log.ngList })
       }
+
+      const status = await getDataSetStatus(datasetId);
+      if (status == null) {
+        datasetStatus.set({isOpen: false});
+      } else {
+        datasetStatus.set(status);
+      }
     } else {
       annotationCounts.set(null);
       annotationLog.set(null);
+      datasetStatus.set(null);
     }
   })
 
@@ -121,14 +130,37 @@ const createUserData = (datasetId: string) => {
     })
   }
 
+  // admin 以外で呼び出されるとバグる
+  const openDataset = async () => {
+    datasetStatus.update(status => {
+      if (status == null) return status;
+      status.isOpen = true;
+      setDatasetStatus(datasetId, status);
+      return status;
+    })
+  }
+
+  // admin 以外で呼び出されるとバグる
+  const closeDataset = async () => {
+    datasetStatus.update(status => {
+      if (status == null) return status;
+      status.isOpen = false;
+      setDatasetStatus(datasetId, status);
+      return status;
+    })
+  }
+
   return {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
+    datasetStatus: { subscribe: datasetStatus.subscribe } as Readable<DatasetStatus | null>,
     fetch,
     submit,
     skip,
     getFormValue,
     deleteFormValue,
+    openDataset,
+    closeDataset,
   }
 }
 

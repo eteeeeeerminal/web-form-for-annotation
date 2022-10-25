@@ -6,7 +6,8 @@
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import Title from '$lib/form/Title.svelte';
 
-	const { annotationCounts, fetch } = getUserData(datasetId);
+	const { annotationCounts, datasetStatus, fetch, openDataset, closeDataset } =
+		getUserData(datasetId);
 
 	const shapeCounts = (counts: AnnotationCounts | null) => {
 		if (counts == null) return null;
@@ -45,7 +46,11 @@
 <AnnotationFormItem>ngデータ一覧取得ボタン/ ngデータ一覧</AnnotationFormItem>
 
 <AnnotationFormItem>
-	締め切り/募集開始ボタン
+	{#if $datasetStatus?.isOpen}
+		<PrimaryButton label="アノテーションを締め切る" on:click={closeDataset} />
+	{:else}
+		<PrimaryButton label="アノテーションを開始する" on:click={openDataset} />
+	{/if}
 	<PrimaryButton
 		label={readyDataset ? 'データセットを更新' : 'データセットを準備'}
 		on:click={async () => {
