@@ -15,6 +15,7 @@
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import { commonFormInitValues } from './components/init-values';
 	import { checkCheckBoxLength } from '$lib/form/form';
+	import Buttons from './components/Buttons.svelte';
 
 	const { submit } = getUserData(datasetId);
 	const commonFormKey = 'common';
@@ -76,43 +77,21 @@
 			<svelte:component this={page} {initValues} />
 		</div>
 	{/each}
-	{#if pageNum > 0}
-		<PaginationButton
-			name="戻る"
-			on:click={() => {
-				pageNum--;
+	<Buttons
+		bind:pageNum
+		pageMax={pages.length - 1}
+		onSubmit={() => {
+			if ($isValid) {
+				submit(commonFormKey, formName, $data);
+				submitted = true;
 				if (window != null) {
 					window.scroll({ top: 0, behavior: 'smooth' });
 				}
-			}}
-		/>
-	{/if}
-	{#if pageNum < pages.length - 1}
-		<PaginationButton
-			name="次へ"
-			on:click={() => {
-				pageNum++;
-				if (window != null) {
-					window.scroll({ top: 0, behavior: 'smooth' });
-				}
-			}}
-		/>
-	{/if}
-	{#if pageNum == pages.length - 1}
-		<SubmitButton
-			on:click={() => {
-				if ($isValid) {
-					submit(commonFormKey, formName, $data);
-					submitted = true;
-					if (window != null) {
-						window.scroll({ top: 0, behavior: 'smooth' });
-					}
-				} else {
-					pageNum = 0;
-				}
-			}}
-		/>
-	{/if}
+			} else {
+				pageNum = 0;
+			}
+		}}
+	/>
 </form>
 
 <pre>
