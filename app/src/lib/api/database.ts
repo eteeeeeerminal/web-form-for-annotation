@@ -4,9 +4,11 @@ import { datasetDataIds } from "$lib/dataset/dataset-data-ids";
 
 const datasetColName = "datasets";
 const commonDataColName = "common";
+const usersDataColName = "users";
 const annotationProgressDocName = "progress";
-const annotationLogDocName = "annotation-log";
-const datasetStatusDocName = "dataset-status";
+const logColName = "log";
+const annotationLogDocName = "log";
+const datasetStatusDocName = "status";
 
 // 昇順
 export const sortedMap = (map: Map<string, number>, isAsc = true) => {
@@ -58,12 +60,12 @@ export const updateDataset = async (datasetId: string) => {
 }
 
 export const setDatasetStatus = async (datasetId: string, datasetStatus: DatasetStatus) => {
-  const docRef = doc(database, datasetId, datasetStatusDocName);
+  const docRef = doc(database, datasetColName, datasetId, commonDataColName, datasetStatusDocName);
   await setDoc(docRef, datasetStatus);
 }
 
 export const getDataSetStatus = async (datasetId: string) => {
-  const docRef = doc(database, datasetId, datasetStatusDocName);
+  const docRef = doc(database, datasetColName, datasetId, commonDataColName, datasetStatusDocName);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
@@ -110,7 +112,7 @@ export const sortedAnnotationLog = (annotationLog: AnnotationLogData, isAsc = fa
 
 // 返り値は降順にソートされたmap
 export const getAnnotationLog = async (datasetId: string, uid: string) => {
-  const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
+  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, logColName, annotationLogDocName);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const annotationLogDataDoc = docSnap.data() as AnnotationLogDataDoc;
@@ -125,7 +127,7 @@ export const getAnnotationLog = async (datasetId: string, uid: string) => {
 }
 
 export const setAnnotationLog = async (datasetId: string, uid: string, annotationLog: AnnotationLog) => {
-  const docRef = doc(database, datasetId, "users", uid, annotationLogDocName);
+  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, logColName, annotationLogDocName);
   await setDoc(docRef, {
     annotationLogData: Object.fromEntries(annotationLog.log),
     ngListData: Object.fromEntries(annotationLog.ngList)
