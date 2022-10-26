@@ -2,7 +2,9 @@ import { database } from "./firebase";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { datasetDataIds } from "$lib/dataset/dataset-data-ids";
 
-const annotationProgressDocName = "annotation-progress";
+const datasetColName = "datasets";
+const commonDataColName = "common";
+const annotationProgressDocName = "progress";
 const annotationLogDocName = "annotation-log";
 const datasetStatusDocName = "dataset-status";
 
@@ -35,7 +37,7 @@ export const checkIsAdmin = async (uid: string) => {
 
 export const updateDataset = async (datasetId: string) => {
   // なければ作成
-  const docRef = doc(database, datasetId, annotationProgressDocName);
+  const docRef = doc(database, datasetColName, datasetId, commonDataColName, annotationProgressDocName);
   // TODO: ids が存在しないときの処理を書く
   const ids = datasetDataIds[datasetId];
 
@@ -72,13 +74,13 @@ export const getDataSetStatus = async (datasetId: string) => {
 }
 
 export const existsAnnotationCounts = async (datasetId: string) => {
-  const docRef = doc(database, datasetId, annotationProgressDocName);
+  const docRef = doc(database, datasetColName, datasetId, commonDataColName, annotationProgressDocName);
   const docSnap = await getDoc(docRef);
   return docSnap.exists();
 }
 
 export const getAnnotationCounts = async (datasetId: string) => {
-  const docRef = doc(database, datasetId, annotationProgressDocName);
+  const docRef = doc(database, datasetColName, datasetId, commonDataColName, annotationProgressDocName);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
@@ -90,7 +92,7 @@ export const getAnnotationCounts = async (datasetId: string) => {
 }
 
 export const setAnnotationCounts = async (datasetId: string, annotationCounts: AnnotationCounts) => {
-  const docRef = doc(database, datasetId, annotationProgressDocName);
+  const docRef = doc(database, datasetColName, datasetId, commonDataColName, annotationProgressDocName);
   await setDoc(docRef, {annotationCounts: Object.fromEntries(annotationCounts)});
 }
 
