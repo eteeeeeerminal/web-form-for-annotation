@@ -175,4 +175,35 @@ export const getNGList = async (datasetId: string) => {
 export const getAllAnnotationLogs = async (datasetId: string) => {
   const usersColRef = collection(database, datasetColName, datasetId, usersDataColName);
   const userDocs = await getDocs(query(usersColRef));
+
+  const annotationDataLog: AnnotationDataLog[] = [];
+   userDocs.forEach(doc => {
+    const annotationLogDataDoc = doc.data() as AnnotationLogDataDoc;
+    const annotationLogData = new Map(Object.entries(annotationLogDataDoc.annotationLogData));
+    annotationLogData.forEach((value, key) => {
+      annotationDataLog.push({
+        userId: doc.id,
+        displayName: value.displayName,
+        dataId: key,
+        timestamp: value.timestamp
+      });
+    });
+  });
+
+  return annotationDataLog;
+}
+
+// CAUTION: 大量の document にアクセスする
+export const getAllAnnotations = async (datasetId: string) => {
+  const annotationDataLog = await getAllAnnotationLogs(datasetId);
+  const annotations = annotationDataLog.map(async (log) => {
+    const content = await getAnnotation(datasetId, log.userId, log.dataId);
+    const annotation: Annotation = {
+      metadata: log,
+      content: content,
+    }
+    return annotation;
+  })
+
+  return Promise.all(annotations);
 }

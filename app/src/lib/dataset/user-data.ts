@@ -4,7 +4,7 @@
 import { writable, type Readable } from 'svelte/store';
 
 import { currentUser } from '$lib/api/auth';
-import { deleteAnnotation, getAnnotation, getAnnotationCounts, getAnnotationLog, getDataSetStatus, setAnnotation, setAnnotationCounts, setAnnotationLog, setDatasetStatus, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
+import { deleteAnnotation, getAllAnnotationLogs, getAnnotation, getAnnotationCounts, getAnnotationLog, getDataSetStatus, setAnnotation, setAnnotationCounts, setAnnotationLog, setDatasetStatus, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
 import { datasets } from './datasets';
 
 const createUserData = (datasetId: string) => {
@@ -150,6 +150,35 @@ const createUserData = (datasetId: string) => {
     })
   }
 
+  // admin 専用, annotation log を全部取得してアノテーション数を数え直す
+  const updateAnnotationCounts = async () => {
+    let counts;
+    const unsbscribe = annotationCounts.subscribe(c => counts = c);
+    unsbscribe();
+
+    if (counts == null) return null;
+    const logs = getAllAnnotationLogs(datasetId);
+    annotationCounts.update(counts => {
+      if (counts == null) return null;
+      counts.forEach((_, key) => {
+        counts.set(key, 0);
+      });
+      return counts;
+    });
+
+    logs.then(value => {
+      annotationCounts.update(counts => {
+        if (counts == null) return null;
+        value.forEach(log => {
+          const oldC = counts.get(log.dataId)
+          counts.set(log.dataId, (oldC ? oldC : 0) + 1);
+        })
+        setAnnotationCounts(datasetId, counts);
+        return sortedAnnotationCounts(counts);
+      })
+    })
+  }
+
   return {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
@@ -161,6 +190,7 @@ const createUserData = (datasetId: string) => {
     deleteFormValue,
     openDataset,
     closeDataset,
+    updateAnnotationCounts,
   }
 }
 

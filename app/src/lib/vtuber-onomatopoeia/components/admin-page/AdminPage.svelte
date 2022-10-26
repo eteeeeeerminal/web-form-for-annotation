@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
+	import type { Modal } from 'svelte-simple-modal';
+
 	import { getUserData } from '$lib/dataset/user-data';
 	import { getNGList, updateDataset } from '$lib/api/database';
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
@@ -6,9 +9,16 @@
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import Title from '$lib/form/Title.svelte';
 	import NgList from './nglist/NGList.svelte';
+	import ExportPopup from './ExportPopup.svelte';
 
-	const { annotationCounts, datasetStatus, fetch, openDataset, closeDataset } =
-		getUserData(datasetId);
+	const {
+		annotationCounts,
+		datasetStatus,
+		fetch,
+		openDataset,
+		closeDataset,
+		updateAnnotationCounts
+	} = getUserData(datasetId);
 
 	const shapeCounts = (counts: AnnotationCounts | null) => {
 		if (counts == null) return null;
@@ -28,6 +38,9 @@
 
 	$: readyDataset = Boolean($annotationCounts);
 	$: counts = shapeCounts($annotationCounts);
+
+	const { open } = getContext('simple-modal') as Modal;
+	const showExportPopup = () => open(ExportPopup, { datasetId });
 </script>
 
 <Title title="VTuberオノマトペアノテーションの管理者フォーム" />
@@ -45,6 +58,7 @@
 		{/if}
 	</p>
 	<PrimaryButton label="更新" on:click={fetch} />
+	<PrimaryButton label="数え直す" on:click={updateAnnotationCounts} />
 </AnnotationFormItem>
 
 <AnnotationFormItem>
@@ -60,7 +74,7 @@
 			location.reload();
 		}}
 	/>
-	データのダウンロードボタン / モーダルで確認とるようにしなさいね
+	<PrimaryButton label="EXPORT" on:click={showExportPopup} />
 </AnnotationFormItem>
 
 <AnnotationFormItem>

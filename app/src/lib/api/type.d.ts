@@ -31,6 +31,18 @@ interface NGDataLog {
   timestamp: number,
 }
 
+interface AnnotationDataLog {
+  userId: string,
+  displayName: string,
+  dataId: string,
+  timestamp: number,
+}
+
 interface DBData {
   [key: string]: unknown
+}
+
+interface Annotation {
+  metadata: AnnotationDataLog,
+  content: DBData | null,
 }
