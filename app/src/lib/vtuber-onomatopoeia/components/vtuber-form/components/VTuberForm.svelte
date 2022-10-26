@@ -142,5 +142,4 @@
 			}
 		}}
 	/>
-	{JSON.stringify($data)}
 </form>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
-	import Button, { Label } from '@smui/button';
 
 	import { currentUser } from '$lib/api/auth';
 	import UserHeaderItems from './UserHeaderItems.svelte';

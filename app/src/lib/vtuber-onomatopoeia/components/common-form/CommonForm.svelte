@@ -105,10 +105,6 @@
 	</div>
 </form>
 
-<pre>
-{JSON.stringify($data, null, 2)}
-</pre>
-
 <style lang="scss">
 	.hidden {
 		display: none;
