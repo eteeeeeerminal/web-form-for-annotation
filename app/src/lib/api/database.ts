@@ -150,3 +150,29 @@ export const deleteAnnotation = async (datasetId: string, uid: string, dataId: s
   const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, answersColName, dataId);
   await deleteDoc(docRef);
 }
+
+export const getNGList = async (datasetId: string) => {
+  const usersColRef = collection(database, datasetColName, datasetId, usersDataColName);
+  const userDocs = await getDocs(query(usersColRef));
+
+  const ngDataLogs: NGDataLog[] = [];
+  userDocs.forEach(doc => {
+    const annotationLogDataDoc = doc.data() as AnnotationLogDataDoc;
+    const ngListData = new Map(Object.entries(annotationLogDataDoc.ngListData));
+    ngListData.forEach((value, key) => {
+      ngDataLogs.push({
+        userId: doc.id,
+        displayName: value.displayName,
+        dataId: key,
+        timestamp: value.timestamp
+      });
+    });
+  });
+
+  return ngDataLogs;
+}
+
+export const getAllAnnotationLogs = async (datasetId: string) => {
+  const usersColRef = collection(database, datasetColName, datasetId, usersDataColName);
+  const userDocs = await getDocs(query(usersColRef));
+}

@@ -24,6 +24,13 @@ interface AnnotationLog {
   ngList: AnnotationLogData;
 }
 
+interface NGDataLog {
+  userId: string,
+  displayName: string,
+  dataId: string,
+  timestamp: number,
+}
+
 interface DBData {
   [key: string]: unknown
 }

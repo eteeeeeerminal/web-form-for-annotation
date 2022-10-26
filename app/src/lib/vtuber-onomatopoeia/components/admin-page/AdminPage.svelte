@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { getUserData } from '$lib/dataset/user-data';
-	import { updateDataset } from '$lib/api/database';
+	import { getNGList, updateDataset } from '$lib/api/database';
 	import AnnotationFormItem from '$lib/form/AnnotationFormItem.svelte';
 	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import Title from '$lib/form/Title.svelte';
+	import NgList from './nglist/NGList.svelte';
 
 	const { annotationCounts, datasetStatus, fetch, openDataset, closeDataset } =
 		getUserData(datasetId);
@@ -21,6 +22,9 @@
 		});
 		return ret;
 	};
+
+	let ngListExpanded = false;
+	let ngList: NGDataLog[] = [];
 
 	$: readyDataset = Boolean($annotationCounts);
 	$: counts = shapeCounts($annotationCounts);
@@ -43,8 +47,6 @@
 	<PrimaryButton label="更新" on:click={fetch} />
 </AnnotationFormItem>
 
-<AnnotationFormItem>ngデータ一覧取得ボタン/ ngデータ一覧</AnnotationFormItem>
-
 <AnnotationFormItem>
 	{#if $datasetStatus?.isOpen}
 		<PrimaryButton label="アノテーションを締め切る" on:click={closeDataset} />
@@ -58,5 +60,29 @@
 			location.reload();
 		}}
 	/>
-	データのダウンロードボタン
+	データのダウンロードボタン / モーダルで確認とるようにしなさいね
+</AnnotationFormItem>
+
+<AnnotationFormItem>
+	<h4>スキップされたデータ一覧</h4>
+	{#if ngListExpanded}
+		<NgList ngDataList={ngList} />
+
+		<PrimaryButton
+			label="リストの更新"
+			on:click={async () => {
+				ngList = await getNGList(datasetId);
+			}}
+		/>
+	{:else}
+		<button
+			style="font-size: small; color: gray: display: block; border: none; background: none;"
+			on:click={async () => {
+				ngListExpanded = true;
+				ngList = await getNGList(datasetId);
+			}}
+		>
+			リストを読み込む
+		</button>
+	{/if}
 </AnnotationFormItem>
