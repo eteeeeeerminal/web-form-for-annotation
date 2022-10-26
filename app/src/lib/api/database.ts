@@ -1,13 +1,11 @@
 import { database } from "./firebase";
-import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 import { datasetDataIds } from "$lib/dataset/dataset-data-ids";
 
 const datasetColName = "datasets";
 const commonDataColName = "common";
 const usersDataColName = "users";
 const annotationProgressDocName = "progress";
-const logColName = "log";
-const annotationLogDocName = "log";
 const datasetStatusDocName = "status";
 const answersColName = "answers";
 
@@ -99,7 +97,6 @@ export const setAnnotationCounts = async (datasetId: string, annotationCounts: A
   await setDoc(docRef, {annotationCounts: Object.fromEntries(annotationCounts)});
 }
 
-
 // 降順(更新日時が最近のものが最初に)
 export const sortedAnnotationLog = (annotationLog: AnnotationLogData, isAsc = false) => {
   const arr = [...annotationLog];
@@ -113,7 +110,7 @@ export const sortedAnnotationLog = (annotationLog: AnnotationLogData, isAsc = fa
 
 // 返り値は降順にソートされたmap
 export const getAnnotationLog = async (datasetId: string, uid: string) => {
-  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, logColName, annotationLogDocName);
+  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const annotationLogDataDoc = docSnap.data() as AnnotationLogDataDoc;
@@ -128,7 +125,7 @@ export const getAnnotationLog = async (datasetId: string, uid: string) => {
 }
 
 export const setAnnotationLog = async (datasetId: string, uid: string, annotationLog: AnnotationLog) => {
-  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, logColName, annotationLogDocName);
+  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid);
   await setDoc(docRef, {
     annotationLogData: Object.fromEntries(annotationLog.log),
     ngListData: Object.fromEntries(annotationLog.ngList)
