@@ -9,6 +9,7 @@ const annotationProgressDocName = "progress";
 const logColName = "log";
 const annotationLogDocName = "log";
 const datasetStatusDocName = "status";
+const answersColName = "answers";
 
 // 昇順
 export const sortedMap = (map: Map<string, number>, isAsc = true) => {
@@ -135,7 +136,7 @@ export const setAnnotationLog = async (datasetId: string, uid: string, annotatio
 }
 
 export const getAnnotation = async (datasetId: string, uid: string, dataId: string) => {
-  const docRef = doc(database, datasetId, "users", uid, dataId);
+  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, answersColName, dataId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return docSnap.data() as DBData;
@@ -144,11 +145,11 @@ export const getAnnotation = async (datasetId: string, uid: string, dataId: stri
 }
 
 export const setAnnotation = async (datasetId: string, uid: string, dataId: string, data: unknown) => {
-  const docRef = doc(database, datasetId, "users", uid, dataId);
+  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, answersColName, dataId);
   await setDoc(docRef, data);
 }
 
 export const deleteAnnotation = async (datasetId: string, uid: string, dataId: string) => {
-  const docRef = doc(database, datasetId, "users", uid, dataId);
+  const docRef = doc(database, datasetColName, datasetId, usersDataColName, uid, answersColName, dataId);
   await deleteDoc(docRef);
 }
