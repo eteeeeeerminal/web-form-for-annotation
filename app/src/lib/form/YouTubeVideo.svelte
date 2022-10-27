@@ -5,7 +5,12 @@
 	export let title: string;
 	export let uploaderName: string;
 	export let youtubeId: string;
-	export let description: string = 'この動画の概要欄は空欄でした。';
+	export let description: string;
+
+	description =
+		typeof description == 'string' && description.length > 0
+			? description
+			: 'この動画の概要欄は空欄でした。';
 
 	let descriptionOmitted = true;
 	const switchExpand = () => {
