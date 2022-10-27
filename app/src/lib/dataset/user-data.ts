@@ -37,17 +37,18 @@ const createUserData = (datasetId: string) => {
   })
 
   const fetch = () => {
-    annotationLog.subscribe(async log => {
+    const unsubscribe = annotationLog.subscribe(async log => {
       if (log == null) return;
       annotationCounts.set(await getAnnotationCounts(datasetId));
 
-      const newerLog  = await getAnnotationLog(datasetId, log.uid);
-      if (newerLog  == null) {
+      const newerLog = await getAnnotationLog(datasetId, log.uid);
+      if (newerLog == null) {
         annotationLog.set({ uid: log.uid, log: new Map(), ngList: new Map() });
       } else {
         annotationLog.set({ uid: log.uid, log: newerLog.log, ngList: newerLog.ngList })
       }
-    })
+    });
+    unsubscribe();
   }
 
   const submit = (dataId: string, displayName: string, values: unknown) => {
