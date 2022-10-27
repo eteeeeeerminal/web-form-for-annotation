@@ -24,7 +24,7 @@ service cloud.firestore {
       }
 
       match /common/status {
-        allow read: if request.auth;
+        allow read: if request.auth != null;
       }
 
       match /users/{userId} {
