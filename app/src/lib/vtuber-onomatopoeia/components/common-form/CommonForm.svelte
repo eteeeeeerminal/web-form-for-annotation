@@ -5,8 +5,6 @@
 	import * as yup from 'yup';
 
 	import ConsentForm from './components/ConsentForm.svelte';
-	import SubmitButton from '$lib/button/SubmitButton.svelte';
-	import PaginationButton from '$lib/button/PaginationButton.svelte';
 	import PaymentForm from './components/PaymentForm.svelte';
 	import AnnotatorForm from './components/AnnotatorForm.svelte';
 	import { checkboxValues } from './components/consent-checkbox-info';
@@ -15,6 +13,9 @@
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 	import { commonFormInitValues } from './components/init-values';
 	import { checkCheckBoxLength } from '$lib/form/form';
+	import Buttons from './components/Buttons.svelte';
+	import ScreeningForm from './components/ScreeningForm.svelte';
+	import { screen } from './components/screening';
 
 	const { submit } = getUserData(datasetId);
 	const commonFormKey = 'common';
@@ -66,41 +67,23 @@
 		extend: [validator({ schema }), reporter]
 	});
 
+	let screeningOk = false;
+
 	let pageNum = 0;
 	const pages = [ConsentForm, PaymentForm, AnnotatorForm];
 </script>
 
 <form use:form>
-	{#each pages as page, i}
-		<div class={i != pageNum ? 'hidden' : ''}>
-			<svelte:component this={page} {initValues} />
-		</div>
-	{/each}
-	{#if pageNum > 0}
-		<PaginationButton
-			name="戻る"
-			on:click={() => {
-				pageNum--;
-				if (window != null) {
-					window.scroll({ top: 0, behavior: 'smooth' });
-				}
-			}}
-		/>
-	{/if}
-	{#if pageNum < pages.length - 1}
-		<PaginationButton
-			name="次へ"
-			on:click={() => {
-				pageNum++;
-				if (window != null) {
-					window.scroll({ top: 0, behavior: 'smooth' });
-				}
-			}}
-		/>
-	{/if}
-	{#if pageNum == pages.length - 1}
-		<SubmitButton
-			on:click={() => {
+	<div class={screeningOk ? '' : 'hidden'}>
+		{#each pages as page, i}
+			<div class={i != pageNum ? 'hidden' : ''}>
+				<svelte:component this={page} {initValues} />
+			</div>
+		{/each}
+		<Buttons
+			bind:pageNum
+			pageMax={pages.length - 1}
+			onSubmit={() => {
 				if ($isValid) {
 					submit(commonFormKey, formName, $data);
 					submitted = true;
@@ -112,12 +95,15 @@
 				}
 			}}
 		/>
-	{/if}
+	</div>
+	<div class={screeningOk ? 'hidden' : ''}>
+		<ScreeningForm
+			screen={() => {
+				screeningOk = screen($data);
+			}}
+		/>
+	</div>
 </form>
-
-<pre>
-{JSON.stringify($data, null, 2)}
-</pre>
 
 <style lang="scss">
 	.hidden {

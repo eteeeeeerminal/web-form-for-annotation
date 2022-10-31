@@ -1,19 +1,25 @@
 <script lang="ts">
-	import Button, { Label } from '@smui/button';
+	import { getContext } from 'svelte';
+	import type { Modal } from 'svelte-simple-modal';
+	import Button from '@smui/button';
 	import type { MenuComponentDev } from '@smui/menu';
 	import Menu from '@smui/menu';
 	import { Anchor } from '@smui/menu-surface';
-	import List, { Item } from '@smui/list';
+	import List, { Item, Separator } from '@smui/list';
 
 	import { signOut } from '$lib/api/auth';
 	import type { User } from '$lib/api/auth';
 	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
+	import DeleteUserPopup from './DeleteUserPopup.svelte';
 
 	export let currentUser: User;
 
 	let menu: MenuComponentDev;
 	let anchor: HTMLDivElement;
 	let anchorClasses: { [k: string]: boolean } = {};
+
+	const { open } = getContext('simple-modal') as Modal;
+	const showDeletePopup = () => open(DeleteUserPopup, {});
 </script>
 
 <PrimaryButton href="/dataset" label="Dataset" />
@@ -46,6 +52,8 @@
 	</Button>
 	<Menu bind:this={menu} anchor={false} bind:anchorElement={anchor} anchorCorner="BOTTOM_LEFT">
 		<List>
+			<Item on:SMUI:action={showDeletePopup}>Delete User</Item>
+			<Separator />
 			<Item on:SMUI:action={signOut}>Sign Out</Item>
 		</List>
 	</Menu>

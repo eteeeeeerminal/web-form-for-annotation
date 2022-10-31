@@ -6,31 +6,36 @@ service cloud.firestore {
       allow get: if isUser(userId);
     }
 
-    match /{datasetId} {
+    match /datasets/{datasetId} {
       // admin user
-      match /annotation-progress {
-        allow read: if isAdmin() && isDataset(datasetId);
-        allow create, update: if isAdmin() && isDataset(datasetId);
+      match /common/{document} {
+        allow read: if isAdmin();
+        allow create, update: if isAdmin();
       }
 
-      match /users/{userId}/{document=**} {
-        allow read: if isAdmin() && isDataset(datasetId);
+      match /users/{document=**} {
+        allow read: if isAdmin();
       }
 
       // normal user
-      match /annotation-progress {
-        allow get: if request.auth != null && isDataset(datasetId);
-        allow update: if request.auth != null && isDataset(datasetId);
+      match /common/progress {
+        allow get: if request.auth != null;
+        allow update: if request.auth != null && isOpen(datasetId);
       }
 
-      match /users/{userId}/{document=**} {
-        allow read: if isUser(userId) && isDataset(datasetId);
-        allow write: if isUser(userId) && isDataset(datasetId);
+      match /common/status {
+        allow read: if request.auth != null;
       }
-    }
 
-    function isDataset(docId) {
-      return docId != "admin";
+      match /users/{userId} {
+        allow read: if isUser(userId);
+        allow create, update: if isUser(userId) && isOpen(datasetId);
+
+        match /answers/{dataId} {
+          allow read: if isUser(userId);
+          allow write: if isUser(userId) && isOpen(datasetId);
+        }
+      }
     }
 
     function isUser(uid) {
@@ -39,6 +44,11 @@ service cloud.firestore {
 
     function isAdmin() {
       return get(/databases/$(database)/documents/admin/$(request.auth.uid)).data.isAdmin;
+    }
+
+    // 実験実施中かどうか
+    function isOpen(datasetId) {
+      return get(/databases/$(database)/documents/datasets/$(datasetId)/common/status).data.isOpen;
     }
   }
 }

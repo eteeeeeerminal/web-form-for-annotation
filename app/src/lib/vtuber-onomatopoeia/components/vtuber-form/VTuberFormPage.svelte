@@ -19,8 +19,6 @@
 
 {#if vtuberId}
 	<VTuberForm {vtuberId} bind:submitted {initValues} />
-
-	不具合報告フォーム
 {:else}
 	回答可能なものはありません。ご協力ありがとうございます。
 {/if}

@@ -4,7 +4,6 @@
 	import { validator } from '@felte/validator-yup';
 	import * as yup from 'yup';
 
-	import onomatopoeiaList from '$lib/img/onomatopoeia-list.jpg';
 	import YouTubeVideo from '$lib/form/YouTubeVideo.svelte';
 	import Text from '$lib/form/Text.svelte';
 	import SubmitButton from '$lib/button/SubmitButton.svelte';
@@ -68,7 +67,10 @@
 	}
 </script>
 
-<Text>VTuber の自己紹介動画を閲覧して、感じたままを回答してください。</Text>
+<Text>
+	VTuber の自己紹介動画を閲覧して、感じたままを回答してください。
+	動画が不適切だと感じたり、極端に長かったりなどした場合はスキップフォームより、理由を回答した上でスキップしてください。
+</Text>
 
 <YouTubeVideo {...vtuberVideo} />
 
@@ -80,7 +82,7 @@
 	</AnnotationFormItem>
 
 	<AnnotationFormItem
-		question="このVTuberをオノマトペ1語で表して下さい。思いつかない場合は、以下に提示してあるオノマトペの例の中から選択してください。"
+		question="このVTuberの印象をオノマトペ1語で表して下さい。<br/> オノマトペの例: チクチク、こってり、かぷかぷ など。既存のものでなくても可"
 	>
 		<TextField
 			name="firstOnomatopoeia"
@@ -90,7 +92,7 @@
 	</AnnotationFormItem>
 
 	<AnnotationFormItem
-		question="上記以外のオノマトペで、このVTuberを表していると思うオノマトペがあれば回答してください。"
+		question="上記以外のオノマトペで、このVTuberの印象を表していると思うオノマトペがあれば回答してください。"
 	>
 		<TextField
 			name="otherOnomatopoeia"
@@ -108,12 +110,6 @@
 			placeholder="数語で回答"
 		/>
 	</AnnotationFormItem>
-
-	<Text>
-		オノマトペの例<br />
-		<br />
-		<img src={onomatopoeiaList} alt="オノマトペの例" style="width: 100%;" />
-	</Text>
 
 	<Text>この VTuber の性格について感じたままに回答してください。</Text>
 
@@ -136,11 +132,10 @@
 			if ($isValid) {
 				submit(vtuberId, vtuberVideo.title, $data);
 				submitted = true;
-				if (window != null) {
-					window.scroll({ top: 0, behavior: 'smooth' });
-				}
+			}
+			if (window != null) {
+				window.scroll({ top: 0, behavior: 'smooth' });
 			}
 		}}
 	/>
-	{JSON.stringify($data)}
 </form>

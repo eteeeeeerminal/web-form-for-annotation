@@ -6,7 +6,7 @@
 <AnnotationItem>
 	<div class="form">
 		{#if question}
-			<div class="question">{question}</div>
+			<div class="question">{@html question}</div>
 		{/if}
 		<slot />
 	</div>

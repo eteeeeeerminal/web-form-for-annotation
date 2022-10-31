@@ -4,12 +4,13 @@
 import { writable, type Readable } from 'svelte/store';
 
 import { currentUser } from '$lib/api/auth';
-import { deleteAnnotation, getAnnotation, getAnnotationCounts, getAnnotationLog, setAnnotation, setAnnotationCounts, setAnnotationLog, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
+import { deleteAnnotation, getAllAnnotationLogs, getAnnotation, getAnnotationCounts, getAnnotationLog, getDataSetStatus, setAnnotation, setAnnotationCounts, setAnnotationLog, setDatasetStatus, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
 import { datasets } from './datasets';
 
 const createUserData = (datasetId: string) => {
   const annotationLog = writable<AnnotationLog | null>(null);
   const annotationCounts = writable<AnnotationCounts | null>(null);
+  const datasetStatus = writable<DatasetStatus | null>(null);
 
   currentUser.subscribe(async user => {
     if (user) {
@@ -21,11 +22,34 @@ const createUserData = (datasetId: string) => {
       } else {
         annotationLog.set({ uid: user.uid, log: log.log, ngList: log.ngList })
       }
+
+      const status = await getDataSetStatus(datasetId);
+      if (status == null) {
+        datasetStatus.set({isOpen: false});
+      } else {
+        datasetStatus.set(status);
+      }
     } else {
       annotationCounts.set(null);
       annotationLog.set(null);
+      datasetStatus.set(null);
     }
   })
+
+  const fetch = () => {
+    const unsubscribe = annotationLog.subscribe(async log => {
+      if (log == null) return;
+      annotationCounts.set(await getAnnotationCounts(datasetId));
+
+      const newerLog = await getAnnotationLog(datasetId, log.uid);
+      if (newerLog == null) {
+        annotationLog.set({ uid: log.uid, log: new Map(), ngList: new Map() });
+      } else {
+        annotationLog.set({ uid: log.uid, log: newerLog.log, ngList: newerLog.ngList })
+      }
+    });
+    unsubscribe();
+  }
 
   const submit = (dataId: string, displayName: string, values: unknown) => {
     annotationLog.update(log => {
@@ -107,13 +131,67 @@ const createUserData = (datasetId: string) => {
     })
   }
 
+  // admin 以外で呼び出されるとバグる
+  const openDataset = async () => {
+    datasetStatus.update(status => {
+      if (status == null) return status;
+      status.isOpen = true;
+      setDatasetStatus(datasetId, status);
+      return status;
+    })
+  }
+
+  // admin 以外で呼び出されるとバグる
+  const closeDataset = async () => {
+    datasetStatus.update(status => {
+      if (status == null) return status;
+      status.isOpen = false;
+      setDatasetStatus(datasetId, status);
+      return status;
+    })
+  }
+
+  // admin 専用, annotation log を全部取得してアノテーション数を数え直す
+  const updateAnnotationCounts = async () => {
+    let counts;
+    const unsbscribe = annotationCounts.subscribe(c => counts = c);
+    unsbscribe();
+
+    if (counts == null) return null;
+    const logs = getAllAnnotationLogs(datasetId);
+    annotationCounts.update(counts => {
+      if (counts == null) return null;
+      counts.forEach((_, key) => {
+        counts.set(key, 0);
+      });
+      return counts;
+    });
+
+    logs.then(value => {
+      annotationCounts.update(counts => {
+        if (counts == null) return null;
+        value.forEach(log => {
+          const oldC = counts.get(log.dataId)
+          counts.set(log.dataId, (oldC ? oldC : 0) + 1);
+        })
+        setAnnotationCounts(datasetId, counts);
+        return sortedAnnotationCounts(counts);
+      })
+    })
+  }
+
   return {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
+    datasetStatus: { subscribe: datasetStatus.subscribe } as Readable<DatasetStatus | null>,
+    fetch,
     submit,
     skip,
     getFormValue,
     deleteFormValue,
+    openDataset,
+    closeDataset,
+    updateAnnotationCounts,
   }
 }
 

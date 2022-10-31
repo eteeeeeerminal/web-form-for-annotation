@@ -1,4 +1,7 @@
+import { datasetVersion } from "$lib/vtuber-onomatopoeia/dataset/database";
+
 export const vtuberFormInitValues = {
+  datasetVersion,
   alreadyKnow: '',
   firstOnomatopoeia: '',
   otherOnomatopoeia: '',

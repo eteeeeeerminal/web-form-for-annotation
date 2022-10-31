@@ -12,12 +12,10 @@
 		sex,
 		snsCheck,
 		watchFrequency,
-		watchFrequencyQ,
 		watchPeriod,
 		watchPeriodQ
-	} from './anotator-form';
+	} from './annotator-form';
 	import { commonFormInitValues } from './init-values';
-	import Checkbox from '@smui/checkbox/src/Checkbox.svelte';
 
 	export let initValues: DBData = commonFormInitValues;
 
@@ -51,10 +49,6 @@
 	</p>
 	※ YouTube以外のプラットフォームで活動している人も含む
 </Text>
-
-<AnnotationFormItem question={watchFrequencyQ}>
-	<Select prop={watchFrequency} />
-</AnnotationFormItem>
 
 <AnnotationFormItem question={manyVWatchQ}>
 	<Select prop={manyVWatch} />

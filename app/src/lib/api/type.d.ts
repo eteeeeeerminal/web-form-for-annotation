@@ -1,3 +1,7 @@
+interface DatasetStatus {
+  isOpen: boolean;
+}
+
 // firestore の map は key でソートするみたいなので頑張る
 type AnnotationCounts = Map<string, number>;
 
@@ -20,6 +24,25 @@ interface AnnotationLog {
   ngList: AnnotationLogData;
 }
 
+interface NGDataLog {
+  userId: string,
+  displayName: string,
+  dataId: string,
+  timestamp: number,
+}
+
+interface AnnotationDataLog {
+  userId: string,
+  displayName: string,
+  dataId: string,
+  timestamp: number,
+}
+
 interface DBData {
   [key: string]: unknown
+}
+
+interface Annotation {
+  metadata: AnnotationDataLog,
+  content: DBData | null,
 }

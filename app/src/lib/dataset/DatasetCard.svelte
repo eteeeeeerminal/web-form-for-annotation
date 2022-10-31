@@ -2,7 +2,7 @@
 	import Card from '@smui/card';
 	import Button, { Label } from '@smui/button';
 	import { onMount } from 'svelte';
-	import { checkIsAdmin, updateDataset } from '$lib/api/database';
+	import { checkIsAdmin } from '$lib/api/database';
 	import { currentUser } from '$lib/api/auth';
 	import { getUserData } from '$lib/dataset/user-data';
 
@@ -15,7 +15,8 @@
 
 	const datasetUrl = '/dataset/' + datasetId;
 	const modifyUrl = datasetUrl + '/modify';
-	const { annotationLog, annotationCounts } = getUserData(datasetId);
+	const adminUrl = datasetUrl + '/admin';
+	const { annotationLog, annotationCounts, datasetStatus } = getUserData(datasetId);
 	let readyDataset = false;
 	let isAdmin = false;
 	let lastModified: Date | null = null;
@@ -44,12 +45,18 @@
 	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
-			<div class="button">
-				<PrimaryButton href={datasetUrl} label="アノテーションする" />
-			</div>
-			<div class="button">
-				<SecondaryButton href={modifyUrl} label="回答を修正する" />
-			</div>
+			{#if $datasetStatus?.isOpen}
+				<div class="button">
+					<PrimaryButton href={datasetUrl} label="アノテーションする" />
+				</div>
+				<div class="button">
+					<SecondaryButton href={modifyUrl} label="回答を修正する" />
+				</div>
+			{:else}
+				<div class="button">
+					<PrimaryButton label="アノテーション期間外です。" />
+				</div>
+			{/if}
 		</div>
 	{:else}
 		<div class="warning">
@@ -60,14 +67,7 @@
 		<div class="last-modified">Updated at {lastModified.toLocaleString()}</div>
 	{/if}
 	{#if isAdmin}
-		<Button
-			on:click={async () => {
-				await updateDataset(datasetId);
-				location.reload();
-			}}
-		>
-			<Label>{readyDataset ? 'データセットを更新' : 'データセットを準備'}</Label>
-		</Button>
+		<Button href={adminUrl}><Label>管理者ページ</Label></Button>
 	{/if}
 </Card>
 
