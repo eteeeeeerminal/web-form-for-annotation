@@ -16,6 +16,7 @@
 	const datasetUrl = '/dataset/' + datasetId;
 	const modifyUrl = datasetUrl + '/modify';
 	const adminUrl = datasetUrl + '/admin';
+	const qAndAUrl = datasetUrl + '/QandA';
 	const { annotationLog, annotationCounts, datasetStatus } = getUserData(datasetId);
 	let readyDataset = false;
 	let isAdmin = false;
@@ -66,6 +67,7 @@
 	{#if lastModified}
 		<div class="last-modified">Updated at {lastModified.toLocaleString()}</div>
 	{/if}
+	<Button href={qAndAUrl}><Label>Q and A ページ</Label></Button>
 	{#if isAdmin}
 		<Button href={adminUrl}><Label>管理者ページ</Label></Button>
 	{/if}
