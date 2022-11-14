@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { checkIsAdmin } from '$lib/api/database';
 	import { currentUser } from '$lib/api/auth';
-	import { getUserData } from '$lib/dataset/user-data';
+	import { getUserData, getAnnotationNum } from '$lib/dataset/user-data';
 
 	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
 	import SecondaryButton from '$lib/button/SecondaryButton.svelte';
@@ -30,6 +30,7 @@
 
 	$: readyDataset = Boolean($annotationCounts);
 	$: lastModified = getLastModified($annotationLog);
+	$: annotationNum = Math.max(getAnnotationNum($annotationLog)-1, 0); // common の分引く
 
 	onMount(async () => {
 		// これだと, dataset 一覧ページでログイン状態変化するとまずそうだけど
@@ -66,6 +67,7 @@
 	{/if}
 	{#if lastModified}
 		<div class="last-modified">Updated at {lastModified.toLocaleString()}</div>
+		<div class="last-modified">回答数 {annotationNum} (現在の謝金 図書カード{Math.floor(annotationNum/6)*1000}円分。あと {6-annotationNum%6} 回答で謝金追加)</div>
 	{/if}
 	<Button href={qAndAUrl}><Label>Q and A ページ</Label></Button>
 	{#if isAdmin}

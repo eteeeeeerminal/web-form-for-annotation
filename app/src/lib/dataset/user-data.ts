@@ -200,3 +200,8 @@ const userData = Object.fromEntries(
 );
 
 export const getUserData = (datasetId: string) => userData[datasetId];
+
+export const getAnnotationNum = (annotationLog: AnnotationLog | null) => {
+  if (annotationLog == null) return 0;
+  return annotationLog.log.size;
+}
