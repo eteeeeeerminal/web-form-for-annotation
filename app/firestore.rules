@@ -29,11 +29,11 @@ service cloud.firestore {
 
       match /users/{userId} {
         allow read: if isUser(userId);
-        allow create, update: if isUser(userId) && isOpen(datasetId);
+        allow create, update: if isUser(userId) && (isOpen(datasetId) || isAdmin());
 
         match /answers/{dataId} {
           allow read: if isUser(userId);
-          allow write: if isUser(userId) && isOpen(datasetId);
+          allow write: if isUser(userId) && (isOpen(datasetId) || isAdmin());
         }
       }
     }

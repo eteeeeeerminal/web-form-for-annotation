@@ -1,9 +1,6 @@
 <script lang="ts">
 	import Card from '@smui/card';
 	import Button, { Label } from '@smui/button';
-	import { onMount } from 'svelte';
-	import { checkIsAdmin } from '$lib/api/database';
-	import { currentUser } from '$lib/api/auth';
 	import { getUserData, getAnnotationNum } from '$lib/dataset/user-data';
 
 	import PrimaryButton from '$lib/button/PrimaryButton.svelte';
@@ -17,9 +14,8 @@
 	const modifyUrl = datasetUrl + '/modify';
 	const adminUrl = datasetUrl + '/admin';
 	const qAndAUrl = datasetUrl + '/QandA';
-	const { annotationLog, annotationCounts, datasetStatus } = getUserData(datasetId);
+	const { annotationLog, annotationCounts, datasetStatus, isAdmin } = getUserData(datasetId);
 	let readyDataset = false;
-	let isAdmin = false;
 	let lastModified: Date | null = null;
 
 	const getLastModified = (log: AnnotationLog | null) => {
@@ -32,14 +28,6 @@
 	$: lastModified = getLastModified($annotationLog);
 	$: annotationNum = Math.max(getAnnotationNum($annotationLog)-1, 0); // common の分引く
 
-	onMount(async () => {
-		// これだと, dataset 一覧ページでログイン状態変化するとまずそうだけど
-		// そもそも, ログアウトしてるとすぐにトップページへリダイレクトされるので問題なし
-		// 普通に $: ~ で書くとasyncまわりがめんどい
-		if ($currentUser) {
-			isAdmin = await checkIsAdmin($currentUser.uid);
-		}
-	});
 	// 解答にもバージョンを表記するようにしたい
 </script>
 
@@ -47,7 +35,7 @@
 	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
-			{#if $datasetStatus?.isOpen}
+			{#if $datasetStatus?.isOpen || $isAdmin}
 				<div class="button">
 					<PrimaryButton href={datasetUrl} label="アノテーションする" />
 				</div>
@@ -70,7 +58,7 @@
 		<div class="last-modified">回答数 {annotationNum} (現在の謝金 図書カード{Math.floor(annotationNum/6)*1000}円分。あと {6-annotationNum%6} 回答で謝金追加)</div>
 	{/if}
 	<Button href={qAndAUrl}><Label>Q and A ページ</Label></Button>
-	{#if isAdmin}
+	{#if $isAdmin}
 		<Button href={adminUrl}><Label>管理者ページ</Label></Button>
 	{/if}
 </Card>
