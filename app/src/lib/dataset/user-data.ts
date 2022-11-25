@@ -4,13 +4,18 @@
 import { writable, type Readable } from 'svelte/store';
 
 import { currentUser } from '$lib/api/auth';
-import { deleteAnnotation, getAllAnnotationLogs, getAnnotation, getAnnotationCounts, getAnnotationLog, getDataSetStatus, setAnnotation, setAnnotationCounts, setAnnotationLog, setDatasetStatus, sortedAnnotationCounts, sortedAnnotationLog } from '$lib/api/database';
+import { checkIsAdmin, checkAnnotationAllowed,
+  deleteAnnotation, getAllAnnotationLogs, getAnnotation, getAnnotationCounts, getAnnotationLog, getDataSetStatus,
+  setAnnotation, setAnnotationCounts, setAnnotationLog, setDatasetStatus, sortedAnnotationCounts, sortedAnnotationLog
+} from '$lib/api/database';
 import { datasets } from './datasets';
 
 const createUserData = (datasetId: string) => {
   const annotationLog = writable<AnnotationLog | null>(null);
   const annotationCounts = writable<AnnotationCounts | null>(null);
   const datasetStatus = writable<DatasetStatus | null>(null);
+  const isAdmin = writable<boolean>(false);
+  const annotationAllowed = writable<boolean>(false);
 
   currentUser.subscribe(async user => {
     if (user) {
@@ -29,10 +34,19 @@ const createUserData = (datasetId: string) => {
       } else {
         datasetStatus.set(status);
       }
+
+      const adminFlag = await checkIsAdmin(user.uid);
+      isAdmin.set(adminFlag);
+
+      const annotationFlag = await checkAnnotationAllowed(user.uid);
+      annotationAllowed.set(annotationFlag);
+
     } else {
       annotationCounts.set(null);
       annotationLog.set(null);
       datasetStatus.set(null);
+      isAdmin.set(false);
+      annotationAllowed.set(false);
     }
   })
 
@@ -184,6 +198,8 @@ const createUserData = (datasetId: string) => {
     annotationLog: { subscribe: annotationLog.subscribe } as Readable<AnnotationLog | null>,
     annotationCounts: { subscribe: annotationCounts.subscribe } as Readable<AnnotationCounts | null>,
     datasetStatus: { subscribe: datasetStatus.subscribe } as Readable<DatasetStatus | null>,
+    isAdmin: { subscribe: isAdmin.subscribe } as Readable<boolean>,
+    annotationAllowed: { subscribe: annotationAllowed.subscribe } as Readable<boolean>,
     fetch,
     submit,
     skip,
@@ -200,3 +216,8 @@ const userData = Object.fromEntries(
 );
 
 export const getUserData = (datasetId: string) => userData[datasetId];
+
+export const getAnnotationNum = (annotationLog: AnnotationLog | null) => {
+  if (annotationLog == null) return 0;
+  return annotationLog.log.size;
+}
