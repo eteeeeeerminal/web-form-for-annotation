@@ -84,7 +84,7 @@ export const checkAnnotationAllowed = async (uid: string) => {
       return annotationAllowed;
     }
   }
-  return true;
+  return false;
 }
 
 export const existsAnnotationCounts = async (datasetId: string) => {
