@@ -6,6 +6,11 @@ service cloud.firestore {
       allow get: if isUser(userId);
     }
 
+    // annotation を特別に許可するか
+    match /annotationAllowed/{userId} {
+      allow get: if isUser(userId);
+    }
+
     match /datasets/{datasetId} {
       // admin user
       match /common/{document} {
@@ -20,7 +25,7 @@ service cloud.firestore {
       // normal user
       match /common/progress {
         allow get: if request.auth != null;
-        allow update: if request.auth != null && isOpen(datasetId);
+        allow update: if request.auth != null && (isOpen(datasetId) || annotationAllowed());
       }
 
       match /common/status {
@@ -29,11 +34,11 @@ service cloud.firestore {
 
       match /users/{userId} {
         allow read: if isUser(userId);
-        allow create, update: if isUser(userId) && (isOpen(datasetId) || isAdmin());
+        allow create, update: if isUser(userId) && (isOpen(datasetId) || annotationAllowed());
 
         match /answers/{dataId} {
           allow read: if isUser(userId);
-          allow write: if isUser(userId) && (isOpen(datasetId) || isAdmin());
+          allow write: if isUser(userId) && (isOpen(datasetId) || annotationAllowed());
         }
       }
     }
@@ -49,6 +54,11 @@ service cloud.firestore {
     // 実験実施中かどうか
     function isOpen(datasetId) {
       return get(/databases/$(database)/documents/datasets/$(datasetId)/common/status).data.isOpen;
+    }
+
+    // アノテーションステータス
+    function annotationAllowed() {
+      return get(/databases/$(database)/documents/annotationAllowed/$(request.auth.uid)).data.isAllowed == true;
     }
   }
 }

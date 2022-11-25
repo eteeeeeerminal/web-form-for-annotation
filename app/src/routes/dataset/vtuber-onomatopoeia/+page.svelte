@@ -5,7 +5,7 @@
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
 
-	const { annotationLog, datasetStatus, isAdmin } = getUserData(datasetId);
+	const { annotationLog, datasetStatus, annotationAllowed } = getUserData(datasetId);
 
 	$: isSubmittedCommon = Boolean($annotationLog?.log.get('common'));
 </script>
@@ -15,7 +15,7 @@
 		<Title title="VTuberオノマトペ印象アノテーション" />
 		{#if $annotationLog == null}
 			Loading...
-		{:else if !$datasetStatus?.isOpen && !$isAdmin}
+		{:else if !$datasetStatus?.isOpen && !$annotationAllowed}
 			<h2>アノテーション期間外です。</h2>
 		{:else if isSubmittedCommon}
 			<VTuberFormPage />

@@ -2,12 +2,12 @@
 	import ModifyPage from '$lib/vtuber-onomatopoeia/components/ModifyPage.svelte';
 	import { getUserData } from '$lib/dataset/user-data';
 	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
-	const { datasetStatus, isAdmin } = getUserData(datasetId);
+	const { datasetStatus, annotationAllowed } = getUserData(datasetId);
 </script>
 
 <div class="center">
 	<div class="centered-item">
-		{#if $datasetStatus?.isOpen || $isAdmin}
+		{#if $datasetStatus?.isOpen || $annotationAllowed}
 			<ModifyPage />
 		{:else}
 			<h2>アノテーション期間外です。</h2>

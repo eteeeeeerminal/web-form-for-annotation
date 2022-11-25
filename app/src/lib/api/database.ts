@@ -74,6 +74,19 @@ export const getDataSetStatus = async (datasetId: string) => {
   return null;
 }
 
+export const checkAnnotationAllowed = async (uid: string) => {
+  const docRef = doc(database, "annotationAllowed", uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const annotationAllowed = docSnap.data().isAllowed;
+    if (typeof annotationAllowed == "boolean") {
+      return annotationAllowed;
+    }
+  }
+  return true;
+}
+
 export const existsAnnotationCounts = async (datasetId: string) => {
   const docRef = doc(database, datasetColName, datasetId, commonDataColName, annotationProgressDocName);
   const docSnap = await getDoc(docRef);

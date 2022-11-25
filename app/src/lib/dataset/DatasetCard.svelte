@@ -14,7 +14,7 @@
 	const modifyUrl = datasetUrl + '/modify';
 	const adminUrl = datasetUrl + '/admin';
 	const qAndAUrl = datasetUrl + '/QandA';
-	const { annotationLog, annotationCounts, datasetStatus, isAdmin } = getUserData(datasetId);
+	const { annotationLog, annotationCounts, datasetStatus, isAdmin, annotationAllowed } = getUserData(datasetId);
 	let readyDataset = false;
 	let lastModified: Date | null = null;
 
@@ -35,7 +35,7 @@
 	<div class="dataset-name">{name} v{version}</div>
 	{#if readyDataset}
 		<div class="buttons">
-			{#if $datasetStatus?.isOpen || $isAdmin}
+			{#if $datasetStatus?.isOpen || $annotationAllowed}
 				<div class="button">
 					<PrimaryButton href={datasetUrl} label="アノテーションする" />
 				</div>
