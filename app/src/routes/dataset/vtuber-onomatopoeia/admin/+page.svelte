@@ -1,24 +1,16 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import AdminPage from '$lib/vtuber-onomatopoeia/components/admin-page/AdminPage.svelte';
-	import { checkIsAdmin } from '$lib/api/database';
-	import { currentUser } from '$lib/api/auth';
+	import { datasetId } from '$lib/vtuber-onomatopoeia/dataset/database';
+	import { getUserData } from '$lib/dataset/user-data';
+	const { isAdmin } = getUserData(datasetId);
 
-	let isAdmin: boolean | null = null;
-
-	onMount(async () => {
-		if ($currentUser) {
-			isAdmin = await checkIsAdmin($currentUser.uid);
-		}
-	});
 </script>
 
 <div class="center">
 	<div class="centered-item">
-		{#if isAdmin == null}
+		{#if $isAdmin == null}
 			Loading...
-		{:else if isAdmin}
+		{:else if $isAdmin}
 			<AdminPage />
 		{:else}
 			<h2>管理者以外は表示できません。</h2>
